@@ -1848,7 +1848,7 @@ static int trackpadCallback(int device, Finger *data, int nFingers, double times
         }
 
         // detect thumb & palm resting
-        int cl, cli, tl, tli;
+        int cl, cli = 0, tl, tli = 0;
         float mY, mX;
         cl = 0;
         tl = 0;
@@ -2831,7 +2831,9 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
         CGEventType nType = CGEventGetType(event);
         static int freePass = 0;
 
-        CGEventType mouseDown, mouseUp, mouseDrag;
+        CGEventType mouseDown = 0;
+        CGEventType mouseUp = 0;
+        CGEventType mouseDrag = 0;
         if (charRegMouseButton == 0) {
             mouseDown = kCGEventOtherMouseDown;
             mouseUp = kCGEventOtherMouseUp;
