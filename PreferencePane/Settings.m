@@ -105,7 +105,7 @@ static int notSynchronize;
 + (void)setKey:(NSString*)aKey with:(id)aValue {
     [settings setObject:aValue forKey:aKey];
 
-    CFPropertyListRef value = (CFPropertyListRef)aValue;
+    CFPropertyListRef value = (__bridge CFPropertyListRef)aValue;
     CFPreferencesSetAppValue((CFStringRef)aKey, value, appID);
     //CFRelease(value);
     if (!notSynchronize)
@@ -136,8 +136,6 @@ static int notSynchronize;
     [apps addObject:app1];
 
     [Settings setKey:@"RecognitionCommands" with:apps];
-    [apps release];
-    [gestures1 release];
 }
 
 + (void)trackpadDefault {
@@ -159,9 +157,6 @@ static int notSynchronize;
     [apps addObject:app1];
 
     [Settings setKey:@"TrackpadCommands" with:apps];
-
-    [apps release];
-    [gestures1 release];
 }
 
 + (void)magicMouseDefault {
@@ -180,8 +175,6 @@ static int notSynchronize;
     NSMutableArray *apps = [[NSMutableArray alloc] init];
     [apps addObject:app1];
     [Settings setKey:@"MagicMouseCommands" with:apps];
-    [apps release];
-    [gestures1 release];
 }
 
 + (void)createDefaultPlist {
@@ -280,31 +273,24 @@ static int notSynchronize;
                 [gestures setObject:gesture forKey:[gesture objectForKey:@"Gesture"]];
             }
             [map setObject:gestures forKey:appName];
-            [gestures release];
         }
     };
 
     // optimization for trackpad commands
-    [trackpadMap release];
     trackpadMap = [[NSMutableDictionary alloc] init];
     optimize(trackpadCommands, trackpadMap);
 
     // optimization for magicmouse commands
-    [magicMouseMap release];
     magicMouseMap = [[NSMutableDictionary alloc] init];
     optimize(magicMouseCommands, magicMouseMap);
 
     // optimization for recognition commands
-    [recognitionMap release];
     recognitionMap = [[NSMutableDictionary alloc] init];
     optimize(recognitionCommands, recognitionMap);
 
 
     // load all icons and all apps
     if (isPrefPane) {
-        [allApps release];
-        [allAppPaths release];
-
         allApps = [[NSMutableArray alloc] init];
         allAppPaths = [[NSMutableArray alloc] init];
 
@@ -355,7 +341,6 @@ static int notSynchronize;
         }
 
 
-        [iconDict release];
         iconDict = [[NSMutableDictionary alloc] init];
 
         NSImage *icon = [NSImage imageNamed:@"NSComputer"];
@@ -380,8 +365,6 @@ static int notSynchronize;
 
 
 + (void)loadSettings {
-    [settings release];
-
     settings = [[NSMutableDictionary alloc] init];
 
     NSString *plistPath = [@"~/Library/Preferences/com.jitouch.Jitouch.plist" stringByStandardizingPath];
@@ -409,7 +392,6 @@ static int notSynchronize;
             NSModalResponse response = [alert runModal];
             if (response == NSOKButton) {
                 [Settings createDefaultPlist];
-                [settings release];
                 NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
                 settings = [[NSMutableDictionary alloc] init];
 
