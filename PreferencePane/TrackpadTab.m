@@ -111,7 +111,6 @@
                                                                 options:(NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveAlways)
                                                                   owner:self userInfo:nil];
     [realView addTrackingArea:trackingArea];
-    [trackingArea release];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector: @selector(outlineViewScrolled:)
@@ -139,7 +138,6 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [window removeChildWindow:localAttachedWindow];
                 [localAttachedWindow orderOut:self];
-                [localAttachedWindow release];
             });
         });
         attachedWindow = nil;
@@ -209,13 +207,11 @@
 
 
         [gesturePreviewView create:gesture forDevice:0];
-        [gesturePreviewView release];
 
 
         if (attachedWindow) {
             [window removeChildWindow:attachedWindow];
             [attachedWindow orderOut:self];
-            [attachedWindow release];
         }
         attachedWindow = tmp;
     } else if (scroll) {
@@ -617,7 +613,6 @@
     if (![[NSURL URLWithString:openURL] scheme]) {
         openURL = [NSString stringWithFormat:@"http://%@", openURL];
     }
-    [openURL retain];
     [self loadActionButton];
     [actionButton selectItemWithTitle:[NSString stringWithFormat:@"Open \"%@\"", openURL]];
 }
@@ -703,14 +698,11 @@
             NSMutableArray *gestures = [[NSMutableArray alloc] init];
             [gestures addObject:newCommand];
             NSMutableDictionary *app = [[NSMutableDictionary alloc] initWithObjectsAndKeys:newApplication, @"Application", newApplicationPath, @"Path", gestures, @"Gestures", nil];
-            [gestures release];
             [trackpadCommands addObject:app];
-            [app release];
 
 
             NSMutableDictionary *tmp = [[NSMutableDictionary alloc] initWithObjectsAndKeys:newCommand, newGesture, nil];
             [trackpadMap setObject:tmp forKey:newApplication];
-            [tmp release];
         }
 
         [commandOutlineView reloadItem:nil reloadChildren:YES];
@@ -721,8 +713,6 @@
     NSInteger newIndex = [commandOutlineView rowForItem:newCommand];
     [commandOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:newIndex] byExtendingSelection:NO];
     [commandOutlineView scrollRowToVisible:newIndex];
-
-    [newCommand release];
 
     [Settings setKey:@"TrackpadCommands" with:trackpadCommands];
     [Settings noteSettingsUpdated];
@@ -745,7 +735,6 @@
                                                    ,newGesture
                                                    ]];
                     [appleScript executeAndReturnError:&errorInfo];
-                    [appleScript release];
                 }
                 CFRelease(dict);
             }
@@ -858,7 +847,7 @@
 }
 
 - (IBAction)restoreDefaults:(id)sender {
-    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:@"OK"];
     [alert addButtonWithTitle:@"Cancel"];
     [alert setMessageText:@"Restore default settings?"];
@@ -915,12 +904,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:nil];
     [self hidePreview];
     [gestureTableView willUnselect];
-}
-
-- (void)dealloc{;
-    [allGestures release];
-    [iconDict release];
-    [super dealloc];
 }
 
 @end

@@ -51,11 +51,5 @@ int cursorImageType;
     [[self window] setHasShadow:NO];
 }
 
-- (void)dealloc {
-    [moveImage release];
-    [resizeImage release];
-    [tabImage release];
-    [super dealloc];
-}
 
 @end
