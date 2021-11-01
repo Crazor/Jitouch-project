@@ -202,7 +202,10 @@ void languageChanged(CFNotificationCenterRef center, void *observer, CFStringRef
 }
 
 - (void)wokeUp:(NSNotification *)aNotification {
-    [NSApp stop:nil]; // The Launch Agent will restart us if we're still welcome.
+    NSLog(@"Woke up. Reloading gestures.");
+    [gesture reload];
 }
+
+#pragma mark -
 
 @end
