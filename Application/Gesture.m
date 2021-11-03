@@ -2912,6 +2912,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
 CFArrayRef deviceList;
 
 - (id)init {
+    NSLog(@"Initializing.");
     if (self = [super init]) {
         me = self;
 
@@ -3033,6 +3034,7 @@ CFArrayRef deviceList;
 }
 
 - (void)reload {
+    NSLog(@"Reloading gestures.");
     for (CFIndex i = 0; i < CFArrayGetCount(deviceList); i++) {
         MTDeviceRef device = (MTDeviceRef)CFArrayGetValueAtIndex(deviceList, i);
         int familyID;
