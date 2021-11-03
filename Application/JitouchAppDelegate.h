@@ -3,6 +3,7 @@
  *
  * Copyright 2021 Sukolsak Sakshuwong
  * Copyright 2021 Supasorn Suwajanakorn
+ * Copyright 2021 Aaron Kollasch
  * Copyright 2021-2022 Daniel Herrmann
  *
  * Jitouch is free software: you can redistribute it and/or modify it under
@@ -32,6 +33,8 @@
 }
 
 @property (weak) IBOutlet NSWindow *window;
+
+- (void)reload;
 
 @end
 
