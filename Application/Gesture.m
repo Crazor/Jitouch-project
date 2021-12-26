@@ -185,6 +185,10 @@ void turnOffGestures() {
     turnOffCharacters();
 }
 
+void enableEventTap() {
+    CGEventTapEnable(eventTap, true);
+}
+
 static void mouseClick(int a, CGFloat x, CGFloat y) {
     CGPoint location = CGPointMake(x, y);
 
@@ -2820,8 +2824,12 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
             CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 2);
             CGEventSetType(event, kCGEventOtherMouseDragged);
         }
-    } else if (type == kCGEventTapDisabledByUserInput || type == kCGEventTapDisabledByTimeout) {
+    } else if (type == kCGEventTapDisabledByUserInput) {
         CGEventTapEnable(eventTap, true);
+        NSLog(@"Re-enabling the event tap after kCGEventTapDisabledByUserInput");
+    } else if (type == kCGEventTapDisabledByTimeout) {
+        CGEventTapEnable(eventTap, true);
+        NSLog(@"Re-enabling the event tap after kCGEventTapDisabledByTimeout");
     }
 
 
@@ -3002,8 +3010,12 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
         CGEventMaskBit(kCGEventOtherMouseDragged);
         //CGEventMaskBit(kCGEventKeyUp) |
         //CGEventMaskBit(kCGEventKeyDown);
-        eventTap = CGEventTapCreate(kCGSessionEventTap, kCGHeadInsertEventTap, 0, eventMask, CGEventCallback, NULL);
+        eventTap = CGEventTapCreate(kCGSessionEventTap, kCGHeadInsertEventTap, kCGEventTapOptionDefault, eventMask, CGEventCallback, NULL);
 
+        if (!eventTap) {
+            NSLog(@"eventTap was nil. Giving up!");
+            [NSApp terminate:self];
+        }
         CGEventTapEnable(eventTap, true);
         runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0);
         CFRunLoopAddSource(CFRunLoopGetMain(), runLoopSource, kCFRunLoopCommonModes);
@@ -3015,7 +3027,6 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     }
     return self;
 }
-
 
 #pragma mark - Character Recognizer
 
