@@ -4,3 +4,7 @@ Pods/
 # Xcode
 project.xcworkspace
 xcuserdata
+
+# Build artifacts
+DerivedData/
+Jitouch.dmg
