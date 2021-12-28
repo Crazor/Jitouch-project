@@ -21,6 +21,11 @@ To build or modify Jitouch, please install the necessary prerequisites and then 
 3. **CocoaPods** (necessary)
     - `brew install cocoapods`
     - or follow the [official instructions](https://guides.cocoapods.org/using/getting-started.html#installation)
+4. **npm** (required for release builds)
+    - `brew install npm`
+5. **appdmg** (required for release builds)
+    - `npm install -g appdmg`
+
 
 ### Building
 1. Clone this repository:
@@ -44,11 +49,11 @@ To build or modify Jitouch, please install the necessary prerequisites and then 
 
 4. Or compile from the shell:
     ```bash
-    xcodebuild -workspace Jitouch.xcworkspace -scheme PreferencePane
+    make build
     ````
 5. Install and run:
     ```bash
-    open ~/Library/Developer/Xcode/DerivedData/Jitouch-*/Build/Products/Debug/Jitouch.prefPane
+    open DerivedData/Build/Products/Debug/Jitouch.prefPane
     ```
 
 ## Contributing
