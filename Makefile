@@ -1,4 +1,4 @@
-.PHONY: all clean build dist
+.PHONY: all build dist edit clean
 PREFPANE = DerivedData/Build/Products/Debug/Jitouch.prefPane
 DMG = Jitouch.dmg
 
@@ -7,6 +7,9 @@ all: $(DMG)
 build: $(PREFPANE)
 
 dist: $(DMG)
+
+edit:
+	open Jitouch.xcworkspace
 
 clean:
 	@rm -f Jitouch.dmg
