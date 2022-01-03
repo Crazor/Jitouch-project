@@ -308,4 +308,16 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     [settings setObject:[tabViewItem identifier] forKey:@"LastTab"];
 }
 
+- (void)showWindow:(id)sender {
+    [super showWindow:sender];
+    
+    // Show the Dock icon
+    [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    // Hide the Dock icon
+    [NSApp setActivationPolicy: NSApplicationActivationPolicyAccessory];
+}
+
 @end

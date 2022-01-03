@@ -23,7 +23,7 @@
 
 @class KeyTextView;
 
-@interface JitouchPref : NSWindowController {
+@interface JitouchPref : NSWindowController <NSWindowDelegate> {
     IBOutlet NSSlider *sdClickSpeed;
     IBOutlet NSSlider *sdSensitivity;
     IBOutlet NSSegmentedControl *scAll;
