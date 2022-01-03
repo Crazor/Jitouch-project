@@ -26,3 +26,4 @@
 @end
 
 void turnOffGestures(void);
+void enableEventTap(void);

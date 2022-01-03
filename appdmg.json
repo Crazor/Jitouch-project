@@ -7,7 +7,7 @@
 	  "size": { "width": 384, "height": 192 }
   },
   "contents": [
-    { "x": 0, "y": 0, "type": "file", "path": "DerivedData/Build/Products/Debug/Jitouch.prefPane" },
+    { "x": 0, "y": 0, "type": "file", "path": "DerivedData/Build/Products/Debug/Jitouch.app" },
     { "x": 192, "y": 0, "type": "file", "path": "LICENSE" }
   ]
 }

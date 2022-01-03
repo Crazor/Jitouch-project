@@ -82,7 +82,7 @@ CFMachPortRef eventKeyboard;
 
 static int notSynchronize;
 
-+ (void)noteSettingsUpdated2 {
++ (void)noteSettingsUpdated {
     @autoreleasepool {
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName: @"My Notification2"
                                                                        object: @"com.jitouch.Jitouch.PrefpaneTarget2"

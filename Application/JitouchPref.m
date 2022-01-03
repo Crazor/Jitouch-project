@@ -1,10 +1,10 @@
 /*
  * This file is part of Jitouch.
  *
- * Copyright 2021 Daniel Herrmann
  * Copyright 2021 Sukolsak Sakshuwong
  * Copyright 2021 Supasorn Suwajanakorn
  * Copyright 2021 Aaron Kollasch
+ * Copyright 2021-2022 Daniel Herrmann
  *
  * Jitouch is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -31,6 +31,10 @@
 @implementation JitouchPref
 
 CFMachPortRef eventTap;
+
+- (instancetype)init {
+    return [self initWithWindowNibName:@"Preferences"];
+}
 
 - (void)enUpdated {
     [trackpadTab enUpdated];
@@ -262,7 +266,6 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     }
     [self addJitouchLaunchAgent];
 
-
     NSInteger tabIndex = 0;
     if ([settings objectForKey:@"LastTab"] && (tabIndex=[mainTabView indexOfTabViewItemWithIdentifier:[settings objectForKey:@"LastTab"]]) != NSNotFound) {
         [mainTabView selectTabViewItemAtIndex:tabIndex];
@@ -275,9 +278,6 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
             [mainTabView selectTabViewItemWithIdentifier:@"Magic Mouse"];
         }
     }
-
-    mainView = [self mainView];
-
 }
 
 - (SUUpdater *)updater {

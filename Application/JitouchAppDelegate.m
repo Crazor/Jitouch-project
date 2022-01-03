@@ -4,6 +4,7 @@
  * Copyright 2021 Sukolsak Sakshuwong
  * Copyright 2021 Supasorn Suwajanakorn
  * Copyright 2021 Aaron Kollasch
+ * Copyright 2021-2022 Daniel Herrmann
  *
  * Jitouch is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -19,12 +20,12 @@
  */
 
 #import "JitouchAppDelegate.h"
+#import "JitouchPref.h"
 #import "Settings.h"
 #import "Gesture.h"
 #import "CursorWindow.h"
 #import <Carbon/Carbon.h>
 #import <CoreFoundation/CFPreferences.h>
-#import "SystemPreferences.h"
 
 CursorWindow *cursorWindow;
 CGKeyCode keyMap[128]; // for dvorak support
@@ -86,21 +87,8 @@ CGKeyCode keyMap[128]; // for dvorak support
 }
 
 - (void)preferences:(id)sender  {
-    NSString *prefPath = [@"~/Library/PreferencePanes/Jitouch.prefPane" stringByExpandingTildeInPath];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:prefPath]) {
-        prefPath = @"/Library/PreferencePanes/Jitouch.prefPane";
-    }
-
-    if ([[NSFileManager defaultManager] fileExistsAtPath:prefPath]) {
-        [[NSWorkspace sharedWorkspace] openFile:prefPath];
-    } else {
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert setMessageText:@"Can't find the jitouch preference panel."];
-        [alert setInformativeText:@"Please reinstall jitouch."];
-        [alert setAlertStyle:NSWarningAlertStyle];
-        [NSApp activateIgnoringOtherApps:YES];
-        [alert runModal];
-    }
+    [preferencesWindowController showWindow:nil];
+    [NSApp activateIgnoringOtherApps:YES];
 }
 
 
@@ -184,6 +172,7 @@ void languageChanged(CFNotificationCenterRef center, void *observer, CFStringRef
 */
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    preferencesWindowController = [[JitouchPref alloc] init];
     [Settings loadSettings];
 
     [self refreshMenu];

@@ -77,7 +77,6 @@
 		F36657872781C847008ABF6B /* GestureTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GestureTableView.h; path = Application/GestureTableView.h; sourceTree = "<group>"; };
 		F36657882781C847008ABF6B /* MAAttachedWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAAttachedWindow.h; path = Application/MAAttachedWindow.h; sourceTree = "<group>"; };
 		F36657892781C847008ABF6B /* KeyTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyTextField.h; path = Application/KeyTextField.h; sourceTree = "<group>"; };
-		F366578A2781C847008ABF6B /* SystemPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemPreferences.h; path = Application/SystemPreferences.h; sourceTree = "<group>"; };
 		F366578B2781C847008ABF6B /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = Application/Settings.h; sourceTree = "<group>"; };
 		F366578D2781C854008ABF6B /* GestureTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GestureTableView.m; path = Application/GestureTableView.m; sourceTree = "<group>"; };
 		F366578E2781C854008ABF6B /* JitouchPref.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JitouchPref.m; path = Application/JitouchPref.m; sourceTree = "<group>"; };
@@ -219,7 +218,6 @@
 				F36657802781C847008ABF6B /* SizeHistory.h */,
 				F366579E2781C854008ABF6B /* SizeHistory.m */,
 				F36657862781C847008ABF6B /* SystemEvents.h */,
-				F366578A2781C847008ABF6B /* SystemPreferences.h */,
 				F36657792781C847008ABF6B /* TrackpadTab.h */,
 				F36657952781C854008ABF6B /* TrackpadTab.m */,
 			);

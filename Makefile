@@ -16,10 +16,10 @@ edit: deps
 
 clean:
 	@rm -f Jitouch.dmg
-	@xcodebuild clean -workspace Jitouch.xcworkspace -scheme PreferencePane -derivedDataPath DerivedData
+	@xcodebuild clean -workspace Jitouch.xcworkspace -scheme Application -derivedDataPath DerivedData
 
 $(PREFPANE):
-	@xcodebuild build -workspace Jitouch.xcworkspace -scheme PreferencePane -derivedDataPath DerivedData
+	@xcodebuild build -workspace Jitouch.xcworkspace -scheme Application -derivedDataPath DerivedData
 
 $(DMG): $(PREFPANE)
 	@npm exec -y appdmg appdmg.json Jitouch.dmg
