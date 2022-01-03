@@ -3,6 +3,7 @@
  *
  * Copyright 2021 Sukolsak Sakshuwong
  * Copyright 2021 Supasorn Suwajanakorn
+ * Copyright 2021-2022 Daniel Herrmann
  *
  * Jitouch is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -24,6 +25,7 @@
 
 @interface JitouchAppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *__weak window;
+    NSWindowController *preferencesWindowController;
     Gesture *gesture;
     NSMenu *theMenu;
     NSStatusItem *theItem;
