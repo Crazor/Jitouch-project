@@ -2678,8 +2678,11 @@ static void magicTrackpadRemoved(void* refCon, io_iterator_t iterator) {
 #pragma mark - CGEventCallback
 
 static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
-    if (trackpadNFingers == 2 && twoFingersDistance < 0.3f && (type == kCGEventLeftMouseDown || type == kCGEventLeftMouseUp)) {
+    if (trackpadNFingers == 2 && twoFingersDistance < 0.3f && type == kCGEventLeftMouseDown) {
+        DDLogDebug(@"Suppressed Mouse%d with %d fingers %f", type, trackpadNFingers, twoFingersDistance);
         return NULL;
+    } else if (type == kCGEventLeftMouseDown || type == kCGEventLeftMouseUp) {
+        DDLogDebug(@"Did not suppress Mouse%d with %d fingers %f", type, trackpadNFingers, twoFingersDistance);
     }
     
     if (type == kCGEventLeftMouseDown || type == kCGEventRightMouseDown) {
