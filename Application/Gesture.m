@@ -614,7 +614,9 @@ static void doCommand(NSString *gesture, int device) {
         if ([[commandDict objectForKey:@"IsAction"] boolValue]) {
             //action
             NSString *command = [commandDict objectForKey:@"Command"];
-            
+
+            DDLogDebug(@"Command \"%@\" for application \"%@\"", command, application);
+
             if ([command isEqualToString:@"-"]) {
                 
             } else if ([command isEqualToString:@"Next Tab"]) {
@@ -885,6 +887,13 @@ static void doCommand(NSString *gesture, int device) {
                 tmpRef = activateWindowAtPosition(x, y);
             
             NSUInteger modifierFlags = [[commandDict objectForKey:@"ModifierFlags"] unsignedIntegerValue];
+            if (logLevel >= LOG_LEVEL_DEBUG) NSLog(@"Key \"%@%@%@%@%@\" for application \"%@\"",
+                                                   (modifierFlags & kCGEventFlagMaskShift)? @"⇧" : @"",
+                                                   (modifierFlags & kCGEventFlagMaskControl)? @"⌃" : @"",
+                                                   (modifierFlags & kCGEventFlagMaskAlternate)? @"⌥" : @"",
+                                                   (modifierFlags & kCGEventFlagMaskCommand)? @"⌘" : @"",
+                                                   [KeyUtility codeToChar:(CGKeyCode)[[commandDict objectForKey:@"KeyCode"] unsignedIntValue]],
+                                                   application);
             [keyUtil simulateKeyCode:[[commandDict objectForKey:@"KeyCode"] unsignedShortValue]
                             ShftDown:(modifierFlags & kCGEventFlagMaskShift) != 0
                             CtrlDown:(modifierFlags & kCGEventFlagMaskControl) != 0
