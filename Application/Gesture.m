@@ -2737,6 +2737,14 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
                 simulatingByDevice = TRACKPAD;
                 CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 2);
                 CGEventSetType(event, kCGEventOtherMouseDown);
+            } else if ([command isEqualToString:@"Left Click"]) {
+                simulating = LEFTBUTTONDOWN;
+                CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 0);
+                CGEventSetType(event, kCGEventLeftMouseDown);
+            } else if ([command isEqualToString:@"Right Click"]) {
+                simulating = RIGHTBUTTONDOWN;
+                CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 1);
+                CGEventSetType(event, kCGEventRightMouseDown);
             } else if ([command isEqualToString:@"Open Link in New Tab"]) {
                 simulating = COMMANDANDLEFTBUTTONDOWN;
                 CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 0);
@@ -2756,6 +2764,14 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
                 simulatingByDevice = TRACKPAD;
                 CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 2);
                 CGEventSetType(event, kCGEventOtherMouseDown);
+            } else if ([command isEqualToString:@"Left Click"]) {
+                simulating = LEFTBUTTONDOWN;
+                CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 0);
+                CGEventSetType(event, kCGEventLeftMouseDown);
+            } else if ([command isEqualToString:@"Right Click"]) {
+                simulating = RIGHTBUTTONDOWN;
+                CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 1);
+                CGEventSetType(event, kCGEventRightMouseDown);
             } else if ([command isEqualToString:@"Open Link in New Tab"]) {
                 simulating = COMMANDANDLEFTBUTTONDOWN;
                 CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 0);
