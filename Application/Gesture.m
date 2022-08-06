@@ -2729,6 +2729,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
                 dispatchCommand(@"Middle Click", MAGICMOUSE);
                 return NULL;
             }
+            DDLogVerbose(@"Gesture \"Middle Click\" -> \"%@\" for magic mouse", command);
         } else if (trackpadNFingers == 3) {
             trackpadClicked = 1;
             NSString *command = commandForGesture(@"Three-Finger Click", TRACKPAD);
@@ -2756,6 +2757,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
                 dispatchCommand(@"Three-Finger Click", TRACKPAD);
                 return NULL;
             }
+            DDLogVerbose(@"Gesture \"Three-Finger Click\" -> \"%@\" for trackpad", command);
         } else if (trackpadNFingers == 4) {
             trackpadClicked = 1;
             NSString *command = commandForGesture(@"Four-Finger Click", TRACKPAD);
@@ -2783,6 +2785,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
                 dispatchCommand(@"Four-Finger Click", TRACKPAD);
                 return NULL;
             }
+            DDLogVerbose(@"Gesture \"Four-Finger Click\" -> \"%@\" for trackpad", command);
         } else if (magicMouseThreeFingerFlag) {
             NSString *command = commandForGesture(@"Three-Finger Click", MAGICMOUSE);
             if ([command isEqualToString:@"Middle Click"]) {
@@ -2809,6 +2812,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
                 dispatchCommand(@"Three-Finger Click", MAGICMOUSE);
                 return NULL;
             }
+            DDLogVerbose(@"Gesture \"Three-Finger Click\" -> \"%@\" for magic mouse", command);
         }
         
         
@@ -2822,19 +2826,23 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
             CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 2);
             CGEventSetType(event, kCGEventOtherMouseUp);
             simulating = 0;
+            DDLogDebug(@"Simulated MiddleMouseUp");
         } else if (simulating == LEFTBUTTONDOWN) {
             CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 0);
             CGEventSetType(event, kCGEventLeftMouseUp);
             simulating = 0;
+            DDLogDebug(@"Simulated LeftMouseUp");
         } else if (simulating == RIGHTBUTTONDOWN) {
             CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 1);
             CGEventSetType(event, kCGEventRightMouseUp);
             simulating = 0;
+            DDLogDebug(@"Simulated RightMouseUp");
         } else if (simulating == COMMANDANDLEFTBUTTONDOWN) {
             CGEventSetIntegerValueField(event, kCGMouseEventButtonNumber, 0);
             CGEventSetFlags(event, kCGEventFlagMaskCommand);
             CGEventSetType(event, kCGEventLeftMouseUp);
             simulating = 0;
+            DDLogDebug(@"Simulated CommandLeftMouseUp");
         } else if (simulating == IGNOREMOUSE) {
             simulating = 0;
             return NULL;
