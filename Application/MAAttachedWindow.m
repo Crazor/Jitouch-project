@@ -334,12 +334,10 @@
 {
     // TODO: Consider restoring old visual style
     // using imageWithSize:flipped:drawingHandler e.g.:
-    /*
-    NSImage *bg = [NSImage imageWithSize:[self frame].size
-                                 flipped:NO
-                          drawingHandler:???];
-    */
-    return [NSColor lightGrayColor];  // Return static color for now.
+//    NSImage *bg = [NSImage imageWithSize:[self frame].size
+//                                 flipped:NO
+//                          drawingHandler:???];
+    return _MABackgroundColor;  // Return static color for now.
 }
 
 
