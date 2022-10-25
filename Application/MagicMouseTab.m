@@ -244,10 +244,10 @@
             }
             if (foundEnable) {
                 if (foundDisable)
-                    return [NSNumber numberWithInt:NSMixedState];
-                return [NSNumber numberWithInt:NSOnState];
+                    return [NSNumber numberWithInt:NSControlStateValueMixed];
+                return [NSNumber numberWithInt:NSControlStateValueOn];
             }
-            return [NSNumber numberWithInt:NSOffState];
+            return [NSNumber numberWithInt:NSControlStateValueOff];
 
         }
     } else {
@@ -279,10 +279,10 @@
             }
             if (foundDisable) {
                 for (NSDictionary *gesture in [item objectForKey:@"Gestures"])
-                    [gesture setValue:[NSNumber numberWithInteger:NSOnState] forKey:@"Enable"];
+                    [gesture setValue:[NSNumber numberWithInteger:NSControlStateValueOn] forKey:@"Enable"];
             } else {
                 for (NSDictionary *gesture in [item objectForKey:@"Gestures"])
-                    [gesture setValue:[NSNumber numberWithInteger:NSOffState] forKey:@"Enable"];
+                    [gesture setValue:[NSNumber numberWithInteger:NSControlStateValueOff] forKey:@"Enable"];
             }
             [outlineView reloadItem:nil reloadChildren:YES];
         }
@@ -313,12 +313,12 @@
             //return;
             if (foundEnable) {
                 if (foundDisable)
-                    [cell setState:NSMixedState];
+                    [cell setState:NSControlStateValueMixed];
                 else
-                    [cell setState:NSOnState];
+                    [cell setState:NSControlStateValueOn];
                 return;
             }
-            [cell setState:NSOffState];
+            [cell setState:NSControlStateValueOff];
 
         }
     } else {
@@ -600,7 +600,7 @@
                       [NSNumber numberWithBool:YES], @"IsAction",
                       [NSNumber numberWithUnsignedInteger:0], @"ModifierFlags",
                       [NSNumber numberWithUnsignedShort:0], @"KeyCode",
-                      [NSNumber numberWithInt:NSOnState], @"Enable",
+                      [NSNumber numberWithInt:NSControlStateValueOn], @"Enable",
                       nil];
         if (openFilePath) {
             [newCommand setObject:openFilePath forKey:@"OpenFilePath"];
@@ -617,7 +617,7 @@
                       [NSNumber numberWithBool:NO], @"IsAction",
                       [NSNumber numberWithUnsignedInteger:shortcutTextField.modifierFlags], @"ModifierFlags",
                       [NSNumber numberWithUnsignedShort:shortcutTextField.keyCode], @"KeyCode",
-                      [NSNumber numberWithInt:NSOnState], @"Enable",
+                      [NSNumber numberWithInt:NSControlStateValueOn], @"Enable",
                       nil];
     }
 
@@ -717,7 +717,7 @@
             [oPanel setCanChooseDirectories:YES];
             NSModalResponse result = [oPanel runModal];
 
-            if (result == NSOKButton) {
+            if (result == NSModalResponseOK) {
                 openFilePath = [[[oPanel URL] path] copy]; //TODO: mem leak
                 openURL = nil;
                 [self loadActionButton];
@@ -750,7 +750,7 @@
             [oPanel setAllowedFileTypes:@[@"app"]];
             NSModalResponse result = [oPanel runModal];
 
-            if (result == NSOKButton) {
+            if (result == NSModalResponseOK) {
                 NSString* path = [[oPanel URL] path];
                 [applicationButton addApplication:path];
             } else {
@@ -763,7 +763,7 @@
         enMMHanded = (int)[sender selectedColumn];
         [Settings setKey:@"MMHanded" withInt:(int)[sender selectedColumn]];
     } else if (sender == cbAll) {
-        enMMAll = [sender state] == NSOnState ? 1: 0;
+        enMMAll = [sender state] == NSControlStateValueOn ? 1: 0;
         [Settings setKey:@"enMMAll" withInt:enMMAll];
         [self enUpdated];
     }
@@ -817,7 +817,7 @@
     [alert addButtonWithTitle:@"Cancel"];
     [alert setMessageText:@"Restore default settings?"];
     [alert setInformativeText:@"Your current Magic Mouse settings will be deleted."];
-    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setAlertStyle:NSAlertStyleWarning];
     [alert beginSheetModalForWindow:window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
