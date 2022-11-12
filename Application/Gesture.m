@@ -39,6 +39,25 @@
 #define CHARRECOGNITION 2
 static const NSString* deviceTypeName[] = {@"trackpad", @"magicmouse", @"charrec"};
 
+static const int builtinTrackpadFamilyIDs[] = {
+    98, 99, 100, // built-in trackpad
+    101, // retina mbp
+    102, // retina macbook with the Force Touch trackpad (2015)
+    103, // retina mbp 13" with the Force Touch trackpad (2015)
+    104,
+    105, // macbook with touch bar, m1 pro mbp
+    113, // m2 mbp with touch bar
+};
+static const int magicMouseFamilyIDs[] = {
+    112, // magic mouse & magic mouse 2
+};
+static const int magicTrackpadFamilyIDs[] = {
+    128, // magic trackpad
+    129, // magic trackpad 2
+    130, // magic trackpad 3?
+};
+#define MINFAMILYID 98
+
 #define px normalized.pos.x
 #define py normalized.pos.y
 #define HS(a)  ((a * 7907 + 7883) % 4493)
@@ -168,7 +187,31 @@ static float cosineBetweenVectors(float v0x, float v0y, float v1x, float v1y) {
     return (v0x*v1x + v0y*v1y) / sqrtf((v0x*v0x + v0y*v0y) * (v1x*v1x + v1y*v1y));
 }
 
-static void turnOffTrackoad() {
+static bool familyIsBuiltinTrackpad(int familyID) {
+    for (int i = 0; i < sizeof(builtinTrackpadFamilyIDs) / sizeof(builtinTrackpadFamilyIDs[0]); i++) {
+        if(builtinTrackpadFamilyIDs[i] == familyID)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static bool familyIsMagicMouse(int familyID) {
+    for (int i = 0; i < sizeof(magicMouseFamilyIDs) / sizeof(magicMouseFamilyIDs[0]); i++) {
+        if(magicMouseFamilyIDs[i] == familyID)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static bool familyIsMagicTrackpad(int familyID) {
+    for (int i = 0; i < sizeof(magicTrackpadFamilyIDs) / sizeof(magicTrackpadFamilyIDs[0]); i++) {
+        if(magicTrackpadFamilyIDs[i] == familyID)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static void turnOffTrackpad() {
     trackpadNFingers = 0;
 }
 
@@ -191,7 +234,7 @@ static void turnOffCharacters() {
 }
 
 void turnOffGestures() {
-    turnOffTrackoad();
+    turnOffTrackpad();
     turnOffMagicMouse();
     turnOffCharacters();
 }
@@ -2690,7 +2733,7 @@ static int magicMouseCallback(int device, Finger *data, int nFingers, double tim
             if (deviceID == newDeviceMultitouchID) {
                 if (MTDeviceIsRunning(device)) {
                     DDLogVerbose(@"Stop device %li %"PRIu64" family %d (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
-                    if (familyID >= 98) {
+                    if (familyID >= MINFAMILYID) {
                         MTUnregisterContactFrameCallback(device, trackpadCallback);
                         MTUnregisterContactFrameCallback(device, magicMouseCallback);
                         MTDeviceStop(device);
@@ -2706,32 +2749,22 @@ static int magicMouseCallback(int device, Finger *data, int nFingers, double tim
         }
 
         DDLogVerbose(@"Start device %li %"PRIu64", family %d (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
-        if (familyID == 98 || familyID == 99 || familyID == 100  // built-in trackpad
-            || familyID == 101 // retina mbp
-            || familyID == 102 // retina macbook with the Force Touch trackpad (2015)
-            || familyID == 103 // retina mbp 13" with the Force Touch trackpad (2015)
-            || familyID == 104
-            || familyID == 105 // macbook with touch bar
-            || familyID == 113) { // m2 mbp with touch bar
+        if (familyIsBuiltinTrackpad(familyID)) {
             MTRegisterContactFrameCallback(device, trackpadCallback);
             MTDeviceStart(device, 0);
-        } else if (familyID == 112 // magic mouse & magic mouse 2
-            ) {
+        } else if (familyIsMagicMouse(familyID)) {
             MTRegisterContactFrameCallback(device, magicMouseCallback);
             MTDeviceStart(device, 0);
-        } else if (familyID == 128 // magic trackpad
-            || familyID == 129 // magic trackpad 2
-            || familyID == 130 // magic trackpad 3?
-            ) {
+        } else if (familyIsMagicTrackpad(familyID)) {
             MTRegisterContactFrameCallback(device, trackpadCallback);
             MTDeviceStart(device, 0);
-        } else if (familyID >= 98) { // Unknown ID. Assume it's a trackpad.
+        } else if (familyID >= MINFAMILYID) { // Unknown ID. Assume it's a trackpad.
             MTRegisterContactFrameCallback(device, trackpadCallback);
             MTDeviceStart(device, 0);
         }
         DDLogVerbose(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
 
-        if (familyID >= 98) {
+        if (familyID >= MINFAMILYID) {
             found = YES;
             CFArrayAppendValue(deviceList, device);
         }
@@ -2814,8 +2847,7 @@ static void multitouchDeviceRemoved(void* refCon, io_iterator_t iterator) {
 
         trigger = 0;
         DDLogVerbose(@"Device removed: %"PRIu64" family %d", (uint64_t)deviceID, familyID);
-        if (familyID == 112 // magic mouse & magic mouse 2
-            ) {
+        if (familyIsMagicMouse(familyID)) {
             DDLogVerbose(@"Turning off magic mouse");
             turnOffMagicMouse();
         }
@@ -3112,27 +3144,17 @@ CFMutableArrayRef deviceList;
                 MTDeviceGetFamilyID(device, &familyID);
                 uint64_t deviceID = 0;
                 MTDeviceGetDeviceID(device, &deviceID);
-                DDLogVerbose(@"Start device %li %"PRIu64" family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
-                if (familyID == 98 || familyID == 99 || familyID == 100  // built-in trackpad
-                    || familyID == 101 // retina mbp
-                    || familyID == 102 // retina macbook with the Force Touch trackpad (2015)
-                    || familyID == 103 // retina mbp 13" with the Force Touch trackpad (2015)
-                    || familyID == 104
-                    || familyID == 105 // macbook with touch bar
-                    || familyID == 113) { // m2 mbp with touch bar
+                DDLogVerbose(@"Start device %li %"PRIu64" family %d (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+                if (familyIsBuiltinTrackpad(familyID)) {
                     MTRegisterContactFrameCallback(device, trackpadCallback);
                     MTDeviceStart(device, 0);
-                } else if (familyID == 112 // magic mouse & magic mouse 2
-                    ) {
+                } else if (familyIsMagicMouse(familyID)) {
                     MTRegisterContactFrameCallback(device, magicMouseCallback);
                     MTDeviceStart(device, 0);
-                } else if (familyID == 128 // magic trackpad
-                           || familyID == 129 // magic trackpad 2
-                           || familyID == 130 // magic trackpad 3?
-                           ) {
+                } else if (familyIsMagicTrackpad(familyID)) {
                     MTRegisterContactFrameCallback(device, trackpadCallback);
                     MTDeviceStart(device, 0);
-                } else if (familyID >= 98) { // Unknown ID. Assume it's a trackpad.
+                } else if (familyID >= MINFAMILYID) { // Unknown ID. Assume it's a trackpad.
                     MTRegisterContactFrameCallback(device, trackpadCallback);
                     MTDeviceStart(device, 0);
                 }
@@ -3197,7 +3219,7 @@ CFMutableArrayRef deviceList;
         uint64_t deviceID = 0;
         MTDeviceGetDeviceID(device, &deviceID);
         DDLogVerbose(@"Stop device %li %"PRIu64" family %d (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
-        if (familyID >= 98) {
+        if (familyID >= MINFAMILYID) {
             MTUnregisterContactFrameCallback(device, trackpadCallback);
             MTUnregisterContactFrameCallback(device, magicMouseCallback);
             MTDeviceStop(device);
@@ -3213,27 +3235,17 @@ CFMutableArrayRef deviceList;
         MTDeviceGetFamilyID(device, &familyID);
         uint64_t deviceID = 0;
         MTDeviceGetDeviceID(device, &deviceID);
-        DDLogVerbose(@"Start device %li %"PRIu64", family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
-        if (familyID == 98 || familyID == 99 || familyID == 100  // built-in trackpad
-            || familyID == 101 // retina mbp
-            || familyID == 102 // retina macbook with the Force Touch trackpad (2015)
-            || familyID == 103 // retina mbp 13" with the Force Touch trackpad (2015)
-            || familyID == 104
-            || familyID == 105 // macbook with touch bar
-            || familyID == 113) { // m2 mbp with touch bar
+        DDLogVerbose(@"Start device %li %"PRIu64", family %d (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+        if (familyIsBuiltinTrackpad(familyID)) {
             MTRegisterContactFrameCallback(device, trackpadCallback);
             MTDeviceStart(device, 0);
-        } else if (familyID == 112 // magic mouse & magic mouse 2
-            ) {
+        } else if (familyIsMagicMouse(familyID)) {
             MTRegisterContactFrameCallback(device, magicMouseCallback);
             MTDeviceStart(device, 0);
-        } else if (familyID == 128 // magic trackpad
-                   || familyID == 129 // magic trackpad 2
-                   || familyID == 130 // magic trackpad 3?
-                   ) {
+        } else if (familyIsMagicTrackpad(familyID)) {
             MTRegisterContactFrameCallback(device, trackpadCallback);
             MTDeviceStart(device, 0);
-        } else if (familyID >= 98) { // Unknown ID. Assume it's a trackpad.
+        } else if (familyID >= MINFAMILYID) { // Unknown ID. Assume it's a trackpad.
             MTRegisterContactFrameCallback(device, trackpadCallback);
             MTDeviceStart(device, 0);
         }
