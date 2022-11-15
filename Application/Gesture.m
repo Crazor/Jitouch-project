@@ -76,6 +76,12 @@ static const int magicTrackpadFamilyIDs[] = {
 // to suppress "'CGPostKeyboardEvent' is deprecated" warnings
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
+#ifdef DEBUG
+#define DEBUG TRUE
+#else
+#define DEBUG FALSE
+#endif
+
 @implementation Gesture
 
 // Based on the code at http://steike.com/code/multitouch
