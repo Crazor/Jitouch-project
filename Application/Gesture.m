@@ -76,12 +76,6 @@ static const int magicTrackpadFamilyIDs[] = {
 // to suppress "'CGPostKeyboardEvent' is deprecated" warnings
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
-#ifdef DEBUG
-#define DEBUG TRUE
-#else
-#define DEBUG FALSE
-#endif
-
 @implementation Gesture
 
 // Based on the code at http://steike.com/code/multitouch
@@ -1041,9 +1035,17 @@ static void gestureTrackpadChangeSpace(const Finger *data, int nFingers) {
                     last[1] = fing[mini][1];
                 }
             } else {
-                
-                if (lenSqr(data[mini].px, data[mini].py, last[0], last[1]) < 0.000001 &&
-                    (fabs(data[mini].px - fing[mini][0]) >= 0.07 || fabs(data[mini].py - fing[mini][1]) >= 0.08)) {
+
+                if (
+                    (
+                     lenSqr(data[mini].px, data[mini].py, last[0], last[1]) < 0.000001 ||
+                     data[mini].state == MTTouchStateBreakTouch
+                    ) &&
+                    (
+                     fabs(data[mini].px - fing[mini][0]) >= 0.07 * charRegIndexRingDistance / 0.33 ||
+                     fabs(data[mini].py - fing[mini][1]) >= 0.08 * charRegIndexRingDistance / 0.33
+                    )
+                ) {
                     float dx = fabs(fing[mini][0] - data[mini].px), dy = fabs(fing[mini][1] - data[mini].py);
                     if (dx > dy) {
                         if (fing[mini][0] < data[mini].px)
@@ -2035,13 +2037,11 @@ static int trackpadCallback(MTDeviceRef device, Finger *data, int nFingers, doub
 
         // remove hovering and other touch events
         for (int i = 0; i < nFingers; i++) {
-            if (
-                ! (
+            if (!(
                    data[i].state == MTTouchStateMakeTouch ||
                    data[i].state == MTTouchStateTouching ||
                    data[i].state == MTTouchStateBreakTouch
-                   )
-                ) {
+                )) {
                     DDLogDebug(@"Filtered %d %d %f %f", data[i].identifier, data[i].state, data[i].px, data[i].py);
                     data[i--] = data[--nFingers];
                 }
@@ -2107,7 +2107,7 @@ static int trackpadCallback(MTDeviceRef device, Finger *data, int nFingers, doub
 
         if (DEBUG) {
             for (int i = 0; i < nFingers; i++) {
-                DDLogDebug(@"MTTouch %d %d %d %f %f", i, data[i].identifier, data[i].state, data[i].px, data[i].py);
+                DDLogDebug(@"MTTouch %d %d %f %f", data[i].identifier, data[i].state, data[i].px, data[i].py);
             }
         }
 
@@ -2517,9 +2517,17 @@ static void gestureMagicMouseTwoFixOneSlide(Finger *data, int nFingers, double t
                     last[1] = fing[mini][1];
                 }
             } else {
-                
-                if (lenSqr(data[mini].px, data[mini].py, last[0], last[1]) < 0.000001 &&
-                    (fabs(data[mini].px - fing[mini][0]) >= 0.07 || fabs(data[mini].py - fing[mini][1]) >= 0.08)) {
+
+                if (
+                    (
+                     lenSqr(data[mini].px, data[mini].py, last[0], last[1]) < 0.000001 ||
+                     data[mini].state == MTTouchStateBreakTouch
+                    ) &&
+                    (
+                     fabs(data[mini].px - fing[mini][0]) >= 0.07 * charRegIndexRingDistance / 0.33 ||
+                     fabs(data[mini].py - fing[mini][1]) >= 0.08 * charRegIndexRingDistance / 0.33
+                    )
+                ) {
                     float dx = fabs(fing[mini][0] - data[mini].px), dy = fabs(fing[mini][1] - data[mini].py);
                     if (dx > dy) {
                         if (fing[mini][0] < data[mini].px)
