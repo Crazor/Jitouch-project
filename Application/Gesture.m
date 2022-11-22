@@ -1214,9 +1214,11 @@ static int gestureTrackpadMoveResize(const Finger *data, int nFingers, double ti
         if (step2 == 0) {
             if (firstTime) {
                 getMousePosition(&baseX, &baseY);
-                @autoreleasepool {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
                     [cursorWindow orderOut:nil];
-                }
+                    [pool release];
+                });
                 if (cWindow == nil)
                     cWindow = activateWindowAtPosition(baseX, baseY);
                 
@@ -1226,13 +1228,16 @@ static int gestureTrackpadMoveResize(const Finger *data, int nFingers, double ti
                     getWindowPos(cWindow, &appX, &appY);
                     
                     cursorImageType = type - 1;
-                    @autoreleasepool {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
                         [cursorWindow display];
+                        [[cursorWindow contentView] setNeedsDisplay:YES];
                         setCursorWindowAtMouse();
                         [cursorWindow setLevel:NSScreenSaverWindowLevel];
                         [cursorWindow makeKeyAndOrderFront:nil];
-                    }
-                    
+                        [pool release];
+                    });
+
                     moveResizeFlag = 1;
                 }
             }
@@ -1245,15 +1250,21 @@ static int gestureTrackpadMoveResize(const Finger *data, int nFingers, double ti
             if (nFingers == 1 && !shouldExitMoveResize) {
                 CGFloat x, y;
                 getMousePosition(&x, &y);
-                setCursorWindowAtMouse();
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+                    setCursorWindowAtMouse();
+                    [pool release];
+                });
                 if (type == 1) {
                     setWindowPos2(cWindow, x, y, baseX, baseY, appX, appY);
                 } else if (type == 2) {
                     if (!setWindowSize2(cWindow, x, y, baseX, baseY)) {
                         type = 0;
-                        @autoreleasepool {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
                             [cursorWindow orderOut:nil];
-                        }
+                            [pool release];
+                        });
                         CFSafeRelease(cWindow);
                         cWindow = nil;
                         
@@ -1294,10 +1305,13 @@ static int gestureTrackpadMoveResize(const Finger *data, int nFingers, double ti
                 type = 0;
                 CFSafeRelease(cWindow);
                 cWindow = nil;
-                @autoreleasepool {
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
                     [cursorWindow orderOut:nil];
-                }
-                
+                    [pool release];
+                });
+
                 moveResizeFlag = 0;
                 //CGEventTapEnable(eventClick, false);
                 
@@ -1378,10 +1392,13 @@ static int gestureTrackpadMoveResize(const Finger *data, int nFingers, double ti
                         type = 0;
                         CFSafeRelease(cWindow);
                         cWindow = nil;
-                        @autoreleasepool {
+
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
                             [cursorWindow orderOut:nil];
-                        }
-                        
+                            [pool release];
+                        });
+
                         moveResizeFlag = 0;
                     } else if (data[!min].py < fing[1][1]) {
                         if ([commandForGesture(@"One-Fix One-Slide", TRACKPAD) isEqualToString:@"Move / Resize"] && !isMouseOnEmptySpace())
