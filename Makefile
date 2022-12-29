@@ -16,5 +16,5 @@ $(PREFPANE):
 	@xcodebuild build -workspace Jitouch.xcworkspace -scheme PreferencePane -derivedDataPath DerivedData
 
 $(DMG): $(PREFPANE)
-	@appdmg appdmg.json Jitouch.dmg
+	@npm exec -y appdmg appdmg.json Jitouch.dmg
 
