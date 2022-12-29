@@ -20,7 +20,7 @@
 			<true/>
 		</dict>
 		<key>SuccessfulExit</key>
-		<false/>
+		<true/>
 	</dict>
 	<key>ProcessType</key>
 	<string>Interactive</string>

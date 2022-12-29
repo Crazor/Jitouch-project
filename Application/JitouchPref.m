@@ -148,6 +148,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     NSString *pathToUs = [[NSBundle mainBundle] bundlePath];
     NSString *plistPath = [[NSBundle mainBundle]
                            pathForResource:@"io.github.jitouchproject.Jitouch" ofType:@"plist"];
+    // TODO: throw error when plist is not in the bundle
     NSData *launchAgentXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
     NSString *home = NSHomeDirectory();
 
@@ -157,6 +158,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
                                  format:NULL
                                  error:error];
     if (error && *error) {
+        // TODO: Error handling
         return launchAgentXML;
     }
 
@@ -242,7 +244,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     NSLog(@"Reloaded LaunchAgent at %@", plistPath);
 }
 
-- (void)mainViewDidLoad {
+- (void)awakeFromNib {
     isPrefPane = YES;
     [Settings loadSettings:self];
 
