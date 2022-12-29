@@ -1,10 +1,12 @@
-.PHONY: all clean build
+.PHONY: all clean build dist
 PREFPANE = DerivedData/Build/Products/Debug/Jitouch.prefPane
 DMG = Jitouch.dmg
 
 all: $(DMG)
 
 build: $(PREFPANE)
+
+dist: $(DMG)
 
 clean:
 	@rm -f Jitouch.dmg
