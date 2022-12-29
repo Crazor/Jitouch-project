@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3D3182E756BC0097B82D8148 /* Pods_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8DB2999C6C42D80AD792CAD /* Pods_Application.framework */; };
+		F32D0F7B27FC6EBF00F6B9A2 /* io.github.jitouchproject.Jitouch.plist in Resources */ = {isa = PBXBuildFile; fileRef = F333EA07265A6F6500DC5690 /* io.github.jitouchproject.Jitouch.plist */; };
 		F366576C2781C3B4008ABF6B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36657692781C2F2008ABF6B /* Carbon.framework */; };
 		F366576D2781C3B4008ABF6B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36657682781C2F1008ABF6B /* Cocoa.framework */; };
 		F366576E2781C3B4008ABF6B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F366576B2781C2F2008ABF6B /* IOKit.framework */; platformFilters = (maccatalyst, macos, ); };
@@ -48,7 +49,7 @@
 		A8C9E1A3994EB96188571663 /* Pods-Application.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Application.debug.xcconfig"; path = "Target Support Files/Pods-Application/Pods-Application.debug.xcconfig"; sourceTree = "<group>"; };
 		B8DB2999C6C42D80AD792CAD /* Pods_Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC3EC7850319B90435ACE902 /* Pods-Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Application.release.xcconfig"; path = "Target Support Files/Pods-Application/Pods-Application.release.xcconfig"; sourceTree = "<group>"; };
-		F333EA07265A6F6500DC5690 /* io.github.jitouchproject.Jitouch.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = io.github.jitouchproject.Jitouch.plist; path = PreferencePane/io.github.jitouchproject.Jitouch.plist; sourceTree = "<group>"; };
+		F333EA07265A6F6500DC5690 /* io.github.jitouchproject.Jitouch.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = io.github.jitouchproject.Jitouch.plist; path = Application/io.github.jitouchproject.Jitouch.plist; sourceTree = "<group>"; };
 		F36657682781C2F1008ABF6B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F36657692781C2F2008ABF6B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		F366576A2781C2F2008ABF6B /* MultitouchSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultitouchSupport.framework; path = System/Library/PrivateFrameworks/MultitouchSupport.framework; sourceTree = SDKROOT; };
@@ -103,7 +104,6 @@
 		F36657A32781C854008ABF6B /* RecognitionTab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecognitionTab.m; path = Application/RecognitionTab.m; sourceTree = "<group>"; };
 		F36657A42781C854008ABF6B /* JitouchAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JitouchAppDelegate.m; path = Application/JitouchAppDelegate.m; sourceTree = "<group>"; };
 		F36657BE2783591F008ABF6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Application/Base.lproj/Preferences.xib; sourceTree = "<group>"; };
-		F37F26C62641B9F2000A9093 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = PreferencePane/Media.xcassets; sourceTree = "<group>"; };
 		F37F272A2641BD8D000A9093 /* Jitouch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jitouch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F37F27422641BDE4000A9093 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = Application/Media.xcassets; sourceTree = "<group>"; };
 		F37F27672641BE16000A9093 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Application/Info.plist; sourceTree = "<group>"; };
@@ -234,7 +234,6 @@
 				F37F276C2641BE16000A9093 /* JitouchIcon.icns */,
 				F37F276A2641BE16000A9093 /* MainMenu.xib */,
 				F36657BD2783591F008ABF6B /* Preferences.xib */,
-				F37F26C62641B9F2000A9093 /* Media.xcassets */,
 				F37F27422641BDE4000A9093 /* Media.xcassets */,
 			);
 			name = Resources;
@@ -280,7 +279,7 @@
 		F37F26A72641B960000A9093 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					F37F27292641BD8D000A9093 = {
 						CreatedOnToolsVersion = 12.3;
@@ -310,6 +309,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F32D0F7B27FC6EBF00F6B9A2 /* io.github.jitouchproject.Jitouch.plist in Resources */,
 				F37F27712641BE16000A9093 /* JitouchIcon.icns in Resources */,
 				F366578C2781C847008ABF6B /* instructions.html in Resources */,
 				F37F27432641BDE4000A9093 /* Media.xcassets in Resources */,

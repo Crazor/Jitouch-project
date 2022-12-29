@@ -35,7 +35,7 @@
 }
 
 - (IBAction)change:(id)sender;
-- (void) mainViewDidLoad;
+- (void) awakeFromNib;
 - (SUUpdater *) updater;
 
 @end
