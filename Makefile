@@ -1,10 +1,10 @@
-.PHONY: all build dist edit clean
-PREFPANE = DerivedData/Build/Products/Debug/Jitouch.prefPane
+.PHONY: all build dist edit clean run reset
+APP = DerivedData/Build/Products/Debug/Jitouch.app
 DMG = Jitouch.dmg
 
 all: $(DMG)
 
-build: $(PREFPANE)
+build: $(APP)
 
 dist: $(DMG)
 
@@ -18,9 +18,19 @@ clean:
 	@rm -f Jitouch.dmg
 	@xcodebuild clean -workspace Jitouch.xcworkspace -scheme Application -derivedDataPath DerivedData
 
-$(PREFPANE):
+run: $(APP)
+	open $(APP)
+	make log
+
+reset:
+	tccutil reset All com.jitouch.Jitouch
+
+log:
+	log stream --predicate 'sender contains "Jitouch"' --style compact
+
+$(APP):
 	@xcodebuild build -workspace Jitouch.xcworkspace -scheme Application -derivedDataPath DerivedData
 
-$(DMG): $(PREFPANE)
+$(DMG): $(APP)
 	@npm exec -y appdmg appdmg.json Jitouch.dmg
 
