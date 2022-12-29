@@ -3,6 +3,7 @@
  *
  * Copyright 2021 Sukolsak Sakshuwong
  * Copyright 2021 Supasorn Suwajanakorn
+ * Copyright 2021 Aaron Kollasch
  *
  * Jitouch is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -3010,13 +3011,13 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
         //CGEventMaskBit(kCGEventKeyDown);
         eventTap = CGEventTapCreate(kCGSessionEventTap, kCGHeadInsertEventTap, kCGEventTapOptionDefault, eventMask, CGEventCallback, NULL);
 
-        if (!eventTap) {
-            NSLog(@"eventTap was nil. Giving up!");
-            [NSApp terminate:self];
+        if (eventTap != nil) {
+            CGEventTapEnable(eventTap, true);
+            runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0);
+            CFRunLoopAddSource(CFRunLoopGetMain(), runLoopSource, kCFRunLoopCommonModes);
+        } else {
+            NSLog(@"Could not create CGEventTap. Allow Jitouch in System Preferences -> Privacy -> Accessibility.");
         }
-        CGEventTapEnable(eventTap, true);
-        runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0);
-        CFRunLoopAddSource(CFRunLoopGetMain(), runLoopSource, kCFRunLoopCommonModes);
 
         gestureWindow = [[GestureWindow alloc] init];
         sizeHistoryDict = [[NSMutableDictionary alloc] init];
