@@ -8,7 +8,10 @@ build: $(PREFPANE)
 
 dist: $(DMG)
 
-edit:
+deps: 
+	pod install
+
+edit: deps
 	open Jitouch.xcworkspace
 
 clean:

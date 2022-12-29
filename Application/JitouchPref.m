@@ -141,8 +141,8 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
 
 - (NSData *)generateJitouchLaunchAgent:(NSError**)error {
     if (error) { *error = nil; }
-    NSString *pathToUs = [[self bundle] bundlePath];
-    NSString *plistPath = [[self bundle]
+    NSString *pathToUs = [[NSBundle mainBundle] bundlePath];
+    NSString *plistPath = [[NSBundle mainBundle]
                            pathForResource:@"io.github.jitouchproject.Jitouch" ofType:@"plist"];
     NSData *launchAgentXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
     NSString *home = NSHomeDirectory();

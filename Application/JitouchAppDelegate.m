@@ -140,13 +140,11 @@ CGKeyCode keyMap[128]; // for dvorak support
 
 - (void)saveSettings {
     [Settings setKey:@"enAll" withInt:enAll];
-    [Settings noteSettingsUpdated2];
 }
 
 - (void)settingsUpdated:(NSNotification *)aNotification {
-    //[Settings loadSettings];
+    [Settings loadSettings];
 
-    [Settings loadSettings2:aNotification.userInfo]; // fixes bug in mountain lion
     [self refreshMenu];
 
     if (!enAll)
