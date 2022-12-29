@@ -2,6 +2,7 @@
 ![macOS 10.9+](https://img.shields.io/badge/macOS-10.9%2B-blue?logo=Apple)
 ![Apple Silicon ready](https://img.shields.io/badge/Apple%20Silicon-supported-blue?logo=Apple)
 [![License GPL3](https://img.shields.io/github/license/Crazor/jitouch?color=success)](LICENSE)
+[![CI](https://github.com/Crazor/Jitouch-project/actions/workflows/build.yml/badge.svg)](https://github.com/Crazor/Jitouch-project/actions/workflows/build.yml)
 
 **Jitouch** is a Mac application that expands the set of multi-touch gestures for MacBook, Magic Mouse, and Magic Trackpad. These thoughtfully designed gestures enable users to perform frequent tasks more easily such as changing tabs in web browsers, closing windows, minimizing windows, changing spaces, and a lot more.
 
