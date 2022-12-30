@@ -892,7 +892,9 @@
 		CGEventRef ourEvent = CGEventCreate(NULL);
 		CGPoint location = CGEventGetUnflippedLocation(ourEvent);
 		CFRelease(ourEvent);
-		[cursorWindow setFrameOrigin:NSMakePoint(location.x - 31, location.y - 29)];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cursorWindow setFrameOrigin:NSMakePoint(location.x - 31, location.y - 29)];
+        });
 	}
 
 
@@ -1044,7 +1046,9 @@
 				if (firstTime) {
 					getMousePosition(&baseX, &baseY);
 					@autoreleasepool {
-						[cursorWindow orderOut:nil];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [cursorWindow orderOut:nil];
+                        });
 					}
 					if (cWindow == nil)
 						cWindow = activateWindowAtPosition(baseX, baseY);
@@ -1056,10 +1060,12 @@
 
 						cursorImageType = type - 1;
 						@autoreleasepool {
-							[cursorWindow display];
-							setCursorWindowAtMouse();
-							[cursorWindow setLevel:NSScreenSaverWindowLevel];
-							[cursorWindow makeKeyAndOrderFront:nil];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [cursorWindow display];
+                                setCursorWindowAtMouse();
+                                [cursorWindow setLevel:NSScreenSaverWindowLevel];
+                                [cursorWindow makeKeyAndOrderFront:nil];
+                            });
 						}
 
 						moveResizeFlag = 1;
@@ -1081,7 +1087,9 @@
 						if (!setWindowSize2(cWindow, x, y, baseX, baseY)) {
 							type = 0;
 							@autoreleasepool {
-								[cursorWindow orderOut:nil];
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [cursorWindow orderOut:nil];
+                                });
 							}
 							CFSafeRelease(cWindow);
 							cWindow = nil;
@@ -1124,7 +1132,9 @@
 					CFSafeRelease(cWindow);
 					cWindow = nil;
 					@autoreleasepool {
-						[cursorWindow orderOut:nil];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [cursorWindow orderOut:nil];
+                        });
 					}
 
 					moveResizeFlag = 0;
@@ -1208,7 +1218,9 @@
 							CFSafeRelease(cWindow);
 							cWindow = nil;
 							@autoreleasepool {
-								[cursorWindow orderOut:nil];
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [cursorWindow orderOut:nil];
+                                });
 							}
 
 							moveResizeFlag = 0;
@@ -2184,7 +2196,9 @@
 				CFSafeRelease(cWindow);
 				cWindow = nil;
 				@autoreleasepool {
-					[cursorWindow orderOut:nil];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [cursorWindow orderOut:nil];
+                    });
 				}
 				type = 0;
 				firstTouch = 1;
@@ -2201,7 +2215,9 @@
 		if (init) {
 			getMousePosition(&baseX, &baseY);
 			@autoreleasepool {
-				[cursorWindow orderOut:nil];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [cursorWindow orderOut:nil];
+                });
 			}
 			if (cWindow == nil)
 				cWindow = activateWindowAtPosition(baseX, baseY);
@@ -2232,7 +2248,9 @@
 						CFSafeRelease(cWindow);
 						cWindow = nil;
 						@autoreleasepool {
-							[cursorWindow orderOut:nil];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [cursorWindow orderOut:nil];
+                            });
 						}
 						type = 0;
 						firstTouch = 1;
@@ -2384,7 +2402,9 @@
 				ret = tb + 1;
 			} else if (type == 1) {
 				@autoreleasepool {
-					[cursorWindow orderOut:nil];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [cursorWindow orderOut:nil];
+                    });
 				}
 				type = 0;
 				quickTabSwitching = 0;
@@ -2402,7 +2422,9 @@
 			}
 		} else if (type == 1) {
 			@autoreleasepool {
-				[cursorWindow orderOut:nil];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [cursorWindow orderOut:nil];
+                });
 			}
 			type = 0;
 			quickTabSwitching = 0;
