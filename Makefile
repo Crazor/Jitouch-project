@@ -1,4 +1,4 @@
-.PHONY: all build dist edit clean run reset
+.PHONY: all build dist edit clean run reset find
 APP = DerivedData/Build/Products/Debug/Jitouch.app
 DMG = Jitouch.dmg
 
@@ -23,7 +23,10 @@ run: $(APP)
 	make log
 
 reset:
-	tccutil reset All com.jitouch.Jitouch
+	killall Jitouch ; tccutil reset All com.jitouch.Jitouch
+
+find:
+	mdfind "kMDItemCFBundleIdentifier == *Jitouch*"
 
 log:
 	log stream --predicate 'sender contains "Jitouch"' --style compact
