@@ -2827,21 +2827,21 @@
 		} else if (type == kCGEventTapDisabledByUserInput) {
 			CGEventTapEnable(eventTap, true);
 		} else if (type == kCGEventTapDisabledByTimeout) {
-			NSLog(@"Received kCGEventTapDisabledByTimeout; attempting to recreate CGEventTap. Allow Jitouch in System Preferences -> Privacy -> Accessibility.");
+			DDLogWarn(@"Received kCGEventTapDisabledByTimeout; attempting to recreate CGEventTap. Allow Jitouch in System Preferences -> Privacy -> Accessibility.");
 			CFMachPortInvalidate(eventTap);
 			CFRelease(eventTap);
 			CFMachPortRef newEventTap = nil;
 			int i = 0;
 			while (newEventTap == nil) {
 				if (i > 360) {
-					NSLog(@"Could not create CGEventTap");
+                    DDLogWarn(@"Could not create CGEventTap");
 					exit(1);
 				}
 				sleep(1);
 				newEventTap = [me createEventTap];
 				i++;
 			}
-			NSLog(@"CGEventTap created");
+			DDLogInfo(@"CGEventTap created");
 			eventTap = newEventTap;
 			return NULL;
     }
@@ -2954,7 +2954,7 @@
 CFMutableArrayRef deviceList;
 
 - (id)init {
-    NSLog(@"Initializing.");
+    DDLogInfo(@"Initializing.");
     if (self = [super init]) {
         me = self;
 
@@ -2972,7 +2972,7 @@ CFMutableArrayRef deviceList;
                 MTDeviceGetFamilyID(device, &familyID);
                 uint64_t deviceID = 0;
                 MTDeviceGetDeviceID(device, &deviceID);
-                NSLog(@"Start device %li %"PRIu64" family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+                DDLogInfo(@"Start device %li %"PRIu64" family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
                 if (familyID == 98 || familyID == 99 || familyID == 100  // built-in trackpad
                     || familyID == 101 // retina mbp
                     || familyID == 102 // retina macbook with the Force Touch trackpad (2015)
@@ -2996,7 +2996,7 @@ CFMutableArrayRef deviceList;
                     MTRegisterContactFrameCallback(device, trackpadCallback);
                     MTDeviceStart(device, 0);
                 }
-                NSLog(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+                DDLogInfo(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
             }
             //CFRelease((CFMutableArrayRef)deviceList); // DO NOT release. It'll crash.
         }
@@ -3044,19 +3044,19 @@ CFMutableArrayRef deviceList;
 
         eventTap = [me createEventTap];
         if (eventTap == nil) {
-            NSLog(@"Could not create CGEventTap. Allow Jitouch in System Preferences -> Privacy -> Accessibility.");
+            DDLogInfo(@"Could not create CGEventTap. Allow Jitouch in System Preferences -> Privacy -> Accessibility.");
             CFMachPortRef newEventTap = nil;
             int i = 0;
             while (newEventTap == nil) {
                 if (i > 360) {
-                    NSLog(@"Could not create CGEventTap");
+                    DDLogInfo(@"Could not create CGEventTap");
                     exit(1);
                 }
                 sleep(1);
                 newEventTap = [me createEventTap];
                 i++;
             }
-            NSLog(@"CGEventTap created");
+            DDLogInfo(@"CGEventTap created");
             eventTap = newEventTap;
         }
 
@@ -3069,20 +3069,20 @@ CFMutableArrayRef deviceList;
 }
 
 - (void)reload {
-    NSLog(@"Reloading gestures.");
+    DDLogInfo(@"Reloading gestures.");
     for (CFIndex i = 0; i < CFArrayGetCount(deviceList); i++) {
         MTDeviceRef device = (MTDeviceRef)CFArrayGetValueAtIndex(deviceList, i);
         int familyID;
         MTDeviceGetFamilyID(device, &familyID);
         uint64_t deviceID = 0;
         MTDeviceGetDeviceID(device, &deviceID);
-        NSLog(@"Stop device %li %"PRIu64" family %d (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+        DDLogInfo(@"Stop device %li %"PRIu64" family %d (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
         if (familyID >= 98) {
             MTUnregisterContactFrameCallback(device, trackpadCallback);
             MTUnregisterContactFrameCallback(device, magicMouseCallback);
             MTDeviceStop(device);
         }
-        NSLog(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+        DDLogInfo(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
     }
     CFRelease(deviceList);
     sleep(1);
@@ -3093,7 +3093,7 @@ CFMutableArrayRef deviceList;
         MTDeviceGetFamilyID(device, &familyID);
         uint64_t deviceID = 0;
         MTDeviceGetDeviceID(device, &deviceID);
-        NSLog(@"Start device %li %"PRIu64", family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+        DDLogInfo(@"Start device %li %"PRIu64", family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
         if (familyID == 98 || familyID == 99 || familyID == 100  // built-in trackpad
             || familyID == 101 // retina mbp
             || familyID == 102 // retina macbook with the Force Touch trackpad (2015)
@@ -3117,7 +3117,7 @@ CFMutableArrayRef deviceList;
             MTRegisterContactFrameCallback(device, trackpadCallback);
             MTDeviceStart(device, 0);
         }
-        NSLog(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+        DDLogInfo(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
     }
 }
 

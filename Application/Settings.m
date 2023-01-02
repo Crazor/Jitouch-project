@@ -381,7 +381,7 @@ static int notSynchronize;
 
     NSString *plistPath = [@"~/Library/Preferences/com.jitouch.Jitouch.plist" stringByStandardizingPath];
     if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-        NSLog(@"Could not find preferences at %@, creating default plist.", plistPath);
+        DDLogInfo(@"Could not find preferences at %@, creating default plist.", plistPath);
         [Settings createDefaultPlist];
         hasPreviousVersion = YES; //may have .. because the previous version doesn't have plist
     } else {
@@ -404,7 +404,7 @@ static int notSynchronize;
                                  informativeTextWithFormat:@"Your jitouch preference file is out of date. Would you like to use the new default settings? Your current settings will be permanently deleted.\n\nAlternately, you may later click \"Restore Defaults\" to use the new default settings."];
             NSModalResponse response = [alert runModal];
             if (response == NSOKButton) {
-                NSLog(@"Received OK, creating default plist.");
+                DDLogInfo(@"Received OK, creating default plist.");
                 [Settings createDefaultPlist];
                 NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
                 settings = [[NSMutableDictionary alloc] init];

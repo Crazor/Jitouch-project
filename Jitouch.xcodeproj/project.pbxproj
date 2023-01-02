@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3D3182E756BC0097B82D8148 /* Pods_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8DB2999C6C42D80AD792CAD /* Pods_Application.framework */; };
 		F32D0F7B27FC6EBF00F6B9A2 /* io.github.jitouchproject.Jitouch.plist in Resources */ = {isa = PBXBuildFile; fileRef = F333EA07265A6F6500DC5690 /* io.github.jitouchproject.Jitouch.plist */; };
+		F364D77A29639C05003CA11E /* JTLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F364D77929639C05003CA11E /* JTLogFormatter.m */; };
 		F366576C2781C3B4008ABF6B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36657692781C2F2008ABF6B /* Carbon.framework */; };
 		F366576D2781C3B4008ABF6B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36657682781C2F1008ABF6B /* Cocoa.framework */; };
 		F366576E2781C3B4008ABF6B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F366576B2781C2F2008ABF6B /* IOKit.framework */; platformFilters = (maccatalyst, macos, ); };
@@ -50,6 +51,8 @@
 		B8DB2999C6C42D80AD792CAD /* Pods_Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC3EC7850319B90435ACE902 /* Pods-Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Application.release.xcconfig"; path = "Target Support Files/Pods-Application/Pods-Application.release.xcconfig"; sourceTree = "<group>"; };
 		F333EA07265A6F6500DC5690 /* io.github.jitouchproject.Jitouch.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = io.github.jitouchproject.Jitouch.plist; path = Application/io.github.jitouchproject.Jitouch.plist; sourceTree = "<group>"; };
+		F364D77829639C05003CA11E /* JTLogFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JTLogFormatter.h; path = Application/JTLogFormatter.h; sourceTree = "<group>"; };
+		F364D77929639C05003CA11E /* JTLogFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JTLogFormatter.m; path = Application/JTLogFormatter.m; sourceTree = "<group>"; };
 		F36657682781C2F1008ABF6B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F36657692781C2F2008ABF6B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		F366576A2781C2F2008ABF6B /* MultitouchSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultitouchSupport.framework; path = System/Library/PrivateFrameworks/MultitouchSupport.framework; sourceTree = SDKROOT; };
@@ -111,6 +114,7 @@
 		F37F276B2641BE16000A9093 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Application/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F37F276C2641BE16000A9093 /* JitouchIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = JitouchIcon.icns; path = Application/JitouchIcon.icns; sourceTree = "<group>"; };
 		F37F27792641BE25000A9093 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
+		F3C5C6332963540000BC987C /* Jitouch_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Jitouch_Prefix.pch; path = Application/Jitouch_Prefix.pch; sourceTree = "<group>"; };
 		F3DF7892264D3FB80080F27D /* JitouchRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = JitouchRelease.entitlements; path = Application/JitouchRelease.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,6 +173,7 @@
 		F37F27252641BD66000A9093 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				F3C5C6332963540000BC987C /* Jitouch_Prefix.pch */,
 				F3DF7892264D3FB80080F27D /* JitouchRelease.entitlements */,
 				F37F27742641BE24000A9093 /* Frameworks */,
 				F37F27662641BE0A000A9093 /* Resources */,
@@ -211,6 +216,8 @@
 				F36657742781C847008ABF6B /* MagicMouseTab.h */,
 				F366578F2781C854008ABF6B /* MagicMouseTab.m */,
 				F36657A22781C854008ABF6B /* main.m */,
+				F364D77829639C05003CA11E /* JTLogFormatter.h */,
+				F364D77929639C05003CA11E /* JTLogFormatter.m */,
 				F366577A2781C847008ABF6B /* RecognitionTab.h */,
 				F36657A32781C854008ABF6B /* RecognitionTab.m */,
 				F366578B2781C847008ABF6B /* Settings.h */,
@@ -374,6 +381,7 @@
 				F36657A52781C854008ABF6B /* GestureTableView.m in Sources */,
 				F36657A82781C854008ABF6B /* GestureWindow.m in Sources */,
 				F36657AA2781C854008ABF6B /* Settings.m in Sources */,
+				F364D77A29639C05003CA11E /* JTLogFormatter.m in Sources */,
 				F36657BB2781C854008ABF6B /* RecognitionTab.m in Sources */,
 				F36657AD2781C854008ABF6B /* TrackpadTab.m in Sources */,
 				F36657BC2781C854008ABF6B /* JitouchAppDelegate.m in Sources */,
@@ -458,6 +466,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Application/Jitouch_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -468,11 +478,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = 2.75;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -518,16 +529,19 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Application/Jitouch_Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = 2.75;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -550,7 +564,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jitouch.Jitouch;
 				PRODUCT_NAME = Jitouch;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -579,7 +593,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jitouch.Jitouch;
 				PRODUCT_NAME = Jitouch;
 				PROVISIONING_PROFILE_SPECIFIER = "";
