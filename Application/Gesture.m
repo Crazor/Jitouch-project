@@ -2964,7 +2964,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
 CFMutableArrayRef deviceList;
 
 - (id)init {
-    DDLogInfo(@"Initializing.");
+    DDLogVerbose(@"Initializing.");
     if (self = [super init]) {
         me = self;
         
@@ -2982,7 +2982,7 @@ CFMutableArrayRef deviceList;
                 MTDeviceGetFamilyID(device, &familyID);
                 uint64_t deviceID = 0;
                 MTDeviceGetDeviceID(device, &deviceID);
-                DDLogInfo(@"Start device %li %"PRIu64" family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+                DDLogVerbose(@"Start device %li %"PRIu64" family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
                 if (familyID == 98 || familyID == 99 || familyID == 100  // built-in trackpad
                     || familyID == 101 // retina mbp
                     || familyID == 102 // retina macbook with the Force Touch trackpad (2015)
@@ -3006,7 +3006,7 @@ CFMutableArrayRef deviceList;
                     MTRegisterContactFrameCallback(device, trackpadCallback);
                     MTDeviceStart(device, 0);
                 }
-                DDLogInfo(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+                DDLogVerbose(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
             }
             //CFRelease((CFMutableArrayRef)deviceList); // DO NOT release. It'll crash.
         }
@@ -3079,20 +3079,20 @@ CFMutableArrayRef deviceList;
 }
 
 - (void)reload {
-    DDLogInfo(@"Reloading gestures.");
+    DDLogVerbose(@"Reloading gestures.");
     for (CFIndex i = 0; i < CFArrayGetCount(deviceList); i++) {
         MTDeviceRef device = (MTDeviceRef)CFArrayGetValueAtIndex(deviceList, i);
         int familyID;
         MTDeviceGetFamilyID(device, &familyID);
         uint64_t deviceID = 0;
         MTDeviceGetDeviceID(device, &deviceID);
-        DDLogInfo(@"Stop device %li %"PRIu64" family %d (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+        DDLogVerbose(@"Stop device %li %"PRIu64" family %d (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
         if (familyID >= 98) {
             MTUnregisterContactFrameCallback(device, trackpadCallback);
             MTUnregisterContactFrameCallback(device, magicMouseCallback);
             MTDeviceStop(device);
         }
-        DDLogInfo(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+        DDLogVerbose(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
     }
     CFRelease(deviceList);
     sleep(1);
@@ -3103,7 +3103,7 @@ CFMutableArrayRef deviceList;
         MTDeviceGetFamilyID(device, &familyID);
         uint64_t deviceID = 0;
         MTDeviceGetDeviceID(device, &deviceID);
-        DDLogInfo(@"Start device %li %"PRIu64", family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+        DDLogVerbose(@"Start device %li %"PRIu64", family %d, (%s)", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
         if (familyID == 98 || familyID == 99 || familyID == 100  // built-in trackpad
             || familyID == 101 // retina mbp
             || familyID == 102 // retina macbook with the Force Touch trackpad (2015)
@@ -3127,7 +3127,7 @@ CFMutableArrayRef deviceList;
             MTRegisterContactFrameCallback(device, trackpadCallback);
             MTDeviceStart(device, 0);
         }
-        DDLogInfo(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
+        DDLogVerbose(@"Device %li %"PRIu64" family %d is %s", (long)i, deviceID, familyID, (MTDeviceIsRunning(device)) ? "running" : "not running");
     }
 }
 
