@@ -202,7 +202,7 @@ void languageChanged(CFNotificationCenterRef center, void *observer, CFStringRef
 }
 
 - (void)wokeUp:(NSNotification *)aNotification {
-    NSLog(@"Woke up.");
+    DDLogInfo(@"Woke up.");
     [self reload];
 }
 

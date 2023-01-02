@@ -199,7 +199,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     NSError *error;
     NSData *launchAgent = [self generateJitouchLaunchAgent:&error];
     if (error) {
-        NSLog(@"Error generating LaunchAgent: %@", [error localizedDescription]);
+        DDLogInfo(@"Error generating LaunchAgent: %@", [error localizedDescription]);
         return;
     }
     NSString *plistPath = [@"~/Library/LaunchAgents/com.jitouch.Jitouch.plist" stringByStandardizingPath];
@@ -216,12 +216,12 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     if (!exists) {
         BOOL success = [fm createDirectoryAtPath:launchAgentPath withIntermediateDirectories:NO attributes:nil error:&error];
         if (!success || error) {
-            NSLog(@"Error creating LaunchAgents directory at %@: %@", launchAgentPath, [error localizedDescription]);
+            DDLogInfo(@"Error creating LaunchAgents directory at %@: %@", launchAgentPath, [error localizedDescription]);
         } else {
-            NSLog(@"Created the LaunchAgents directory at %@", launchAgentPath);
+            DDLogInfo(@"Created the LaunchAgents directory at %@", launchAgentPath);
         }
     } else if (!isDir) {
-        NSLog(@"Error creating LaunchAgent at %@: ~/Library/LaunchAgents is not a directory.", plistPath);
+        DDLogInfo(@"Error creating LaunchAgent at %@: ~/Library/LaunchAgents is not a directory.", plistPath);
     }
 
     // unload the LaunchAgent
@@ -230,10 +230,10 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     // write the new LaunchAgent plist
     [launchAgent writeToFile:plistPath options:NSDataWritingAtomic error:&error];
     if (error) {
-        NSLog(@"Error creating LaunchAgent at %@: %@", plistPath, [error localizedDescription]);
+        DDLogInfo(@"Error creating LaunchAgent at %@: %@", plistPath, [error localizedDescription]);
     }
     else {
-        NSLog(@"Updated LaunchAgent at %@", plistPath);
+        DDLogInfo(@"Updated LaunchAgent at %@", plistPath);
     }
 
     // in case an older Jitouch is still around
@@ -242,7 +242,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
 
     [self loadJitouchLaunchAgent];
 
-    NSLog(@"Reloaded LaunchAgent at %@", plistPath);
+    DDLogInfo(@"Reloaded LaunchAgent at %@", plistPath);
 }
 
 - (void)awakeFromNib {
