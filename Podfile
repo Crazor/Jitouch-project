@@ -1,12 +1,13 @@
 workspace 'Jitouch'
 project 'Jitouch'
 
-platform :macos, '10.9'
+platform :macos, '10.13'
 
 target 'Application' do
   use_frameworks!
 
   pod 'Sparkle', '~> 1.26'
+  pod 'CocoaLumberjack', '~> 3.8'
 end
 
 post_install do |installer_representation|
