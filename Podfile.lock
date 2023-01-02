@@ -1,16 +1,22 @@
 PODS:
+  - CocoaLumberjack (3.8.0):
+    - CocoaLumberjack/Core (= 3.8.0)
+  - CocoaLumberjack/Core (3.8.0)
   - Sparkle (1.26.0)
 
 DEPENDENCIES:
+  - CocoaLumberjack (~> 3.8)
   - Sparkle (~> 1.26)
 
 SPEC REPOS:
   trunk:
+    - CocoaLumberjack
     - Sparkle
 
 SPEC CHECKSUMS:
+  CocoaLumberjack: 78abfb691154e2a9df8ded4350d504ee19d90732
   Sparkle: d56d028f4b0c123577825f5d1004f6140d77f90e
 
-PODFILE CHECKSUM: 6dc14baf781fe96061ab316e04c3796a4541b652
+PODFILE CHECKSUM: 785650783312ab869d06df533b10f9ba18d71e80
 
 COCOAPODS: 1.11.3
