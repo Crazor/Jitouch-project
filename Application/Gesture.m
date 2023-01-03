@@ -37,6 +37,7 @@
 #define TRACKPAD 0
 #define MAGICMOUSE 1
 #define CHARRECOGNITION 2
+static const NSString* deviceTypeName[] = {@"trackpad", @"magicmouse", @"charrec"};
 
 #define px normalized.pos.x
 #define py normalized.pos.y
@@ -587,7 +588,9 @@ static void dispatchCommand(NSString *gesture, int device) {
         NSDate *start = [NSDate date];
         doCommand(gesture, device);
         NSTimeInterval timeInterval = -[start timeIntervalSinceNow];
-        DDLogInfo(@"Gesture \"%@\" for device %d took %f s", gesture, device, timeInterval);
+        if (device >= 0 && device < sizeof(deviceTypeName) / sizeof(deviceTypeName[0])) {
+            DDLogVerbose(@"Gesture \"%@\" for %@ took %f s", gesture, deviceTypeName[device], timeInterval);
+        }
     });
 }
 
@@ -2844,7 +2847,9 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
                 dispatchCommand(gesture, device);
                 return NULL;
             }
-            DDLogVerbose(@"Gesture \"%@\" -> \"%@\" for device %d", gesture, command, device);
+            if (command != nil) {
+                DDLogVerbose(@"Gesture \"%@\" -> \"%@\" for %@", gesture, command, deviceTypeName[device]);
+            }
         }
         
         
