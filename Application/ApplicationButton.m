@@ -3,6 +3,7 @@
  *
  * Copyright 2021 Sukolsak Sakshuwong
  * Copyright 2021 Supasorn Suwajanakorn
+ * Copyright 2022 Aaron Kollasch
  *
  * Jitouch is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -30,8 +31,14 @@
 
 - (void)addApplication:(NSString*)path {
     NSBundle *bundle = [NSBundle bundleWithPath: path];
-    NSDictionary *infoDict = [bundle infoDictionary];
-    NSString *displayName = [infoDict objectForKey: @"CFBundleName"];
+    NSDictionary *infoDict = [bundle localizedInfoDictionary];
+    NSString *displayName = [infoDict objectForKey: @"CFBundleDisplayName"];
+    if (!displayName) {
+        infoDict = [bundle infoDictionary];
+        displayName = [infoDict objectForKey: @"CFBundleDisplayName"];
+    }
+    if (!displayName)
+        displayName = [infoDict objectForKey: @"CFBundleName"];
     if (!displayName)
         displayName = [infoDict objectForKey: @"CFBundleExecutable"];
 
