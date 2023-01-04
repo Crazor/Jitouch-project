@@ -20,7 +20,6 @@
 
 - (id)copyWithZone:(NSZone *)zone {
     ImageAndTextCell *cell = (ImageAndTextCell *)[super copyWithZone:zone];
-    // The image ivar will be directly copied; we need to retain or copy it.
     return cell;
 }
 
@@ -78,7 +77,7 @@
         imageFrame.size = imageSize;
 
         imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
-        [image drawInRect:imageFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        [image drawInRect:imageFrame fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
     [super drawWithFrame:cellFrame inView:controlView];
 }
