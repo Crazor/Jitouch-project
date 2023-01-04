@@ -121,7 +121,7 @@
 #pragma mark - Gesture animations
 
 - (void)hidePreview {
-    window = [mainView window];
+    window = [NSApp mainWindow];
     if (attachedWindow) {
         [gesturePreviewView stopTimer];
         gesturePreviewView = nil;
@@ -133,7 +133,7 @@
 }
 
 - (void)showPreview:(BOOL)scroll {
-    window = [mainView window];
+    window = [NSApp mainWindow];
     NSInteger rowIndex;
 
     NSPoint point = [commandOutlineView convertPoint:[window mouseLocationOutsideOfEventStream] fromView:[window contentView]];
@@ -520,7 +520,7 @@
 
 
 - (void)showCommandSheet {
-    window = [mainView window];
+    window = [NSApp mainWindow];
     if (eventKeyboard) CGEventTapEnable(eventKeyboard, true);
 
     openFilePath = nil;

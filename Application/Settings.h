@@ -58,8 +58,6 @@ extern BOOL hasloaded;
 
 extern BOOL hasPreviousVersion;
 
-extern NSView *mainView;
-
 extern TrackpadTab *trackpadTab;
 extern MagicMouseTab *magicMouseTab;
 extern RecognitionTab *recognitionTab;

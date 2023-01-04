@@ -97,7 +97,7 @@
 }
 
 - (void)hidePreview {
-    window = [mainView window];
+    window = [NSApp mainWindow];
     if (attachedWindow) {
         [gesturePreviewView stopTimer];
         gesturePreviewView = nil;
@@ -109,7 +109,7 @@
 }
 
 - (void)showPreview:(BOOL)scroll {
-    window = [mainView window];
+    window = [NSApp mainWindow];
     NSInteger rowIndex;
 
     NSPoint point = [commandOutlineView convertPoint:[window mouseLocationOutsideOfEventStream] fromView:[window contentView]];
@@ -472,13 +472,13 @@
     [oneDrawing setState:enOneDrawing];
     //[twoDrawing setState:enTwoDrawing];
 
-    [[mainView window] beginSheet:advancedSheet completionHandler:^(NSModalResponse returnCode) {
+    [[NSApp mainWindow] beginSheet:advancedSheet completionHandler:^(NSModalResponse returnCode) {
         [self didEndSheet:advancedSheet returnCode:returnCode contextInfo:nil];
     }];
 
 }
 - (void)showCommandSheet {
-    window = [mainView window];
+    window = [NSApp mainWindow];
     if (eventKeyboard) CGEventTapEnable(eventKeyboard, true);
 
     openFilePath = nil;

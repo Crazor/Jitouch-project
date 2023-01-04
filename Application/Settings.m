@@ -63,8 +63,6 @@ BOOL hasloaded;
 
 BOOL hasPreviousVersion;
 
-NSView *mainView;
-
 TrackpadTab *trackpadTab;
 MagicMouseTab *magicMouseTab;
 RecognitionTab *recognitionTab;
