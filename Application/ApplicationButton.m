@@ -64,7 +64,6 @@
 }
 
 - (void)awakeFromNib {
-    isPrefPane = YES;
     [Settings loadSettings:self];
 
     [self addItemWithTitle:@"All Applications"];

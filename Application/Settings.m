@@ -61,8 +61,6 @@ NSMutableArray *recognitionCommands;
 
 BOOL hasloaded;
 
-BOOL isPrefPane;
-
 BOOL hasPreviousVersion;
 
 NSView *mainView;
@@ -273,11 +271,11 @@ static int notSynchronize;
     void (^optimize)(NSArray*, NSMutableDictionary*) = ^(NSArray *commands, NSMutableDictionary *map) {
         for (NSDictionary *app in commands) {
             NSString *appName = [app objectForKey:@"Application"];
-            if (!isPrefPane) {
-                if ([appName isEqualToString:@"Chrome"])
-                    appName = @"Google Chrome";
-                else if ([appName isEqualToString:@"Word"])
-                    appName = @"Microsoft Word";
+            if ([appName isEqualToString:@"Chrome"]) {
+                appName = @"Google Chrome";
+            }
+            else if ([appName isEqualToString:@"Word"]) {
+                appName = @"Microsoft Word";
             }
 
             NSMutableDictionary *gestures = [[NSMutableDictionary alloc] init];
@@ -302,75 +300,73 @@ static int notSynchronize;
 
 
     // load all icons and all apps
-    if (isPrefPane) {
-        allApps = [[NSMutableArray alloc] init];
-        allAppPaths = [[NSMutableArray alloc] init];
+    allApps = [[NSMutableArray alloc] init];
+    allAppPaths = [[NSMutableArray alloc] init];
 
-        [allApps addObject:@"Finder"];
-        [allAppPaths addObject:@"/System/Library/CoreServices/Finder.app"];
+    [allApps addObject:@"Finder"];
+    [allAppPaths addObject:@"/System/Library/CoreServices/Finder.app"];
 
-        NSEnumerator* dirEnum = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/Applications" error:NULL] objectEnumerator];
-        NSString *file;
-        while (file = [dirEnum nextObject]) {
-            if ([[file pathExtension] isEqualToString: @"app"]) {
-                NSString* path = [NSString stringWithFormat:@"/Applications/%@", file];
+    NSEnumerator* dirEnum = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/Applications" error:NULL] objectEnumerator];
+    NSString *file;
+    while (file = [dirEnum nextObject]) {
+        if ([[file pathExtension] isEqualToString: @"app"]) {
+            NSString* path = [NSString stringWithFormat:@"/Applications/%@", file];
 
-                NSBundle *bundle = [NSBundle bundleWithPath:path];
-                NSDictionary *infoDict = [bundle infoDictionary];
-                NSString *displayName = [infoDict objectForKey: @"CFBundleName"];
-                if (!displayName)
-                    displayName = [infoDict objectForKey: @"CFBundleExecutable"];
+            NSBundle *bundle = [NSBundle bundleWithPath:path];
+            NSDictionary *infoDict = [bundle infoDictionary];
+            NSString *displayName = [infoDict objectForKey: @"CFBundleName"];
+            if (!displayName)
+                displayName = [infoDict objectForKey: @"CFBundleExecutable"];
 
-                if (displayName) { //TODO: workaround
-                    if ([displayName isEqualToString:@"RDC"])
-                        displayName = @"Remote Desktop Connection"; //TODO: workaround
+            if (displayName) { //TODO: workaround
+                if ([displayName isEqualToString:@"RDC"])
+                    displayName = @"Remote Desktop Connection"; //TODO: workaround
 
-                    [allApps addObject:displayName];
-                    [allAppPaths addObject:path];
-                }
+                [allApps addObject:displayName];
+                [allAppPaths addObject:path];
             }
         }
-        for (NSDictionary *app in trackpadCommands) {
-            if (![[app objectForKey:@"Application"] isEqualToString:@"All Applications"] &&
-                ![allApps containsObject:[app objectForKey:@"Application"]]) {
-                [allApps addObject:[app objectForKey:@"Application"]];
-                [allAppPaths addObject:[app objectForKey:@"Path"]];
-            }
+    }
+    for (NSDictionary *app in trackpadCommands) {
+        if (![[app objectForKey:@"Application"] isEqualToString:@"All Applications"] &&
+            ![allApps containsObject:[app objectForKey:@"Application"]]) {
+            [allApps addObject:[app objectForKey:@"Application"]];
+            [allAppPaths addObject:[app objectForKey:@"Path"]];
         }
-        for (NSDictionary *app in magicMouseCommands) {
-            if (![[app objectForKey:@"Application"] isEqualToString:@"All Applications"] &&
-                ![allApps containsObject:[app objectForKey:@"Application"]]) {
-                [allApps addObject:[app objectForKey:@"Application"]];
-                [allAppPaths addObject:[app objectForKey:@"Path"]];
-            }
+    }
+    for (NSDictionary *app in magicMouseCommands) {
+        if (![[app objectForKey:@"Application"] isEqualToString:@"All Applications"] &&
+            ![allApps containsObject:[app objectForKey:@"Application"]]) {
+            [allApps addObject:[app objectForKey:@"Application"]];
+            [allAppPaths addObject:[app objectForKey:@"Path"]];
         }
-        for (NSDictionary *app in recognitionCommands) {
-            if (![[app objectForKey:@"Application"] isEqualToString:@"All Applications"] &&
-                ![allApps containsObject:[app objectForKey:@"Application"]]) {
-                [allApps addObject:[app objectForKey:@"Application"]];
-                [allAppPaths addObject:[app objectForKey:@"Path"]];
-            }
+    }
+    for (NSDictionary *app in recognitionCommands) {
+        if (![[app objectForKey:@"Application"] isEqualToString:@"All Applications"] &&
+            ![allApps containsObject:[app objectForKey:@"Application"]]) {
+            [allApps addObject:[app objectForKey:@"Application"]];
+            [allAppPaths addObject:[app objectForKey:@"Path"]];
         }
+    }
 
 
-        iconDict = [[NSMutableDictionary alloc] init];
+    iconDict = [[NSMutableDictionary alloc] init];
 
-        NSImage *icon = [NSImage imageNamed:@"NSComputer"];
-        [icon setSize:NSMakeSize(16, 16)];
-        [iconDict setObject:icon forKey:@"All Applications"];
+    NSImage *icon = [NSImage imageNamed:@"NSComputer"];
+    [icon setSize:NSMakeSize(16, 16)];
+    [iconDict setObject:icon forKey:@"All Applications"];
 
-        for (NSUInteger i = 0; i<[allApps count]; i++) {
-            NSString *app = [allApps objectAtIndex:i];
-            NSString *path = [allAppPaths objectAtIndex:i];
-            if (![path isEqualToString:@""]) {
-                NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
-                [icon setSize:NSMakeSize(16, 16)];
-                [iconDict setObject:icon forKey:app];
-            } else {
-                NSImage *icon = [NSImage imageNamed:@"NSComputer"];
-                [icon setSize:NSMakeSize(16, 16)];
-                [iconDict setObject:icon forKey:app];
-            }
+    for (NSUInteger i = 0; i<[allApps count]; i++) {
+        NSString *app = [allApps objectAtIndex:i];
+        NSString *path = [allAppPaths objectAtIndex:i];
+        if (![path isEqualToString:@""]) {
+            NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
+            [icon setSize:NSMakeSize(16, 16)];
+            [iconDict setObject:icon forKey:app];
+        } else {
+            NSImage *icon = [NSImage imageNamed:@"NSComputer"];
+            [icon setSize:NSMakeSize(16, 16)];
+            [iconDict setObject:icon forKey:app];
         }
     }
 }
@@ -394,36 +390,36 @@ static int notSynchronize;
                                  error:&error]];
     }
 
-    if (isPrefPane) {
-        if ([settings objectForKey:@"Revision"] == nil ||
-            [[settings objectForKey:@"Revision"] intValue] < kAcceptableOldestRevision) {
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Do you want to update the preference file?"
-                                             defaultButton:@"Update"
-                                           alternateButton:@"Don't Update"
-                                               otherButton:nil
-                                 informativeTextWithFormat:@"Your jitouch preference file is out of date. Would you like to use the new default settings? Your current settings will be permanently deleted.\n\nAlternately, you may later click \"Restore Defaults\" to use the new default settings."];
-            NSModalResponse response = [alert runModal];
-            if (response == NSModalResponseOK) {
-                NSLog(@"Received OK, creating default plist.");
-                [Settings createDefaultPlist];
-                NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
-                settings = [[NSMutableDictionary alloc] init];
+    if ([settings objectForKey:@"Revision"] == nil ||
+        [[settings objectForKey:@"Revision"] intValue] < kAcceptableOldestRevision) {
+        
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"Do you want to update the preference file?";
+        [alert addButtonWithTitle:@"Update"];
+        [alert addButtonWithTitle:@"Don't update"];
+        alert.informativeText = @"Your jitouch preference file is out of date. Would you like to use the new default settings? Your current settings will be permanently deleted.\n\nAlternately, you may later click \"Restore Defaults\" to use the new default settings.";
+        
+        NSModalResponse response = [alert runModal];
+        if (response == NSModalResponseOK) {
+            NSLog(@"Received OK, creating default plist.");
+            [Settings createDefaultPlist];
+            NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
+            settings = [[NSMutableDictionary alloc] init];
 
-                NSError *error = nil;
-                [settings setDictionary:[NSPropertyListSerialization
-                                         propertyListWithData:plistXML
-                                         options:NSPropertyListMutableContainersAndLeaves
-                                         format:NULL
-                                         error:&error]];
-                hasPreviousVersion = YES;
-            }
-        }
-
-        if ([settings objectForKey:@"Revision"] == nil ||
-            [[settings objectForKey:@"Revision"] intValue] != kCurrentRevision) {
+            NSError *error = nil;
+            [settings setDictionary:[NSPropertyListSerialization
+                                     propertyListWithData:plistXML
+                                     options:NSPropertyListMutableContainersAndLeaves
+                                     format:NULL
+                                     error:&error]];
             hasPreviousVersion = YES;
-            [Settings setKey:@"Revision" withInt:kCurrentRevision];
         }
+    }
+
+    if ([settings objectForKey:@"Revision"] == nil ||
+        [[settings objectForKey:@"Revision"] intValue] != kCurrentRevision) {
+        hasPreviousVersion = YES;
+        [Settings setKey:@"Revision" withInt:kCurrentRevision];
     }
 
     [Settings readSettings];

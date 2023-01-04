@@ -246,7 +246,6 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
 }
 
 - (void)awakeFromNib {
-    isPrefPane = YES;
     [Settings loadSettings:self];
 
     [scAll setSelectedSegment:enAll];

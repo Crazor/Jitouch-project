@@ -55,7 +55,6 @@
 
 - (void)awakeFromNib {
     trackpadTab = self;
-    isPrefPane = YES;
     [Settings loadSettings:self];
 
     allGestures = [[NSMutableArray alloc] initWithObjects:
@@ -847,7 +846,6 @@
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertFirstButtonReturn) {
         [Settings trackpadDefault];
-        isPrefPane = YES;
         //[Settings loadSettings];
         [Settings readSettings];
         [commandOutlineView reloadData];

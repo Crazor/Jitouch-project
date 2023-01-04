@@ -56,8 +56,6 @@ extern NSMutableArray *recognitionCommands;
 
 extern BOOL hasloaded;
 
-extern BOOL isPrefPane;
-
 extern BOOL hasPreviousVersion;
 
 extern NSView *mainView;

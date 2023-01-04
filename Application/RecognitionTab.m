@@ -56,7 +56,6 @@
 
 - (void)awakeFromNib {
     recognitionTab = self;
-    isPrefPane = YES;
     [Settings loadSettings:self];
 
     allGestures = [[NSArray alloc] initWithObjects:
@@ -822,7 +821,6 @@
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertFirstButtonReturn) {
         [Settings recognitionDefault];
-        isPrefPane = YES;
         //[Settings loadSettings];
         [Settings readSettings];
         [commandOutlineView reloadData];
