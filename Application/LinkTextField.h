@@ -3,6 +3,7 @@
  *
  * Copyright 2021 Sukolsak Sakshuwong
  * Copyright 2021 Supasorn Suwajanakorn
+ * Copyright 2023 Daniel Herrmann
  *
  * Jitouch is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -19,6 +20,14 @@
 
 #import <Cocoa/Cocoa.h>
 
+/**
+ * Custom NSTextField subclass behaving like an \<a href=""\> tag
+ */
 @interface LinkTextField : NSTextField
+
+/**
+ * Target URL to open on click. Can conveniently be provided from IB as a User Defined Runtime Argument.
+ */
+@property NSString *href;
 
 @end

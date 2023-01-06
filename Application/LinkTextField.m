@@ -19,10 +19,18 @@
 
 #import "LinkTextField.h"
 
-@implementation LinkTextField
+@implementation LinkTextField {
+    NSString *_href;
+}
+
+@synthesize href = _href;
 
 - (void)mouseUp:(NSEvent *)event {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[self stringValue]]];
+    NSString *href = self.stringValue;
+    if (self.href) {
+        href = self.href;
+    }
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:href]];
 }
 
 - (void)resetCursorRects {
