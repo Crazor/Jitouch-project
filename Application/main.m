@@ -26,7 +26,7 @@
 int main(int argc, const char * argv[])
 {
     // Set up logging with Lumberjack
-    DDOSLogger *logger = [[DDOSLogger alloc] initWithSubsystem:@"com.jitouch.Jitouch" category:@"Main"];
+    DDOSLogger *logger = [[DDOSLogger alloc] initWithSubsystem:@"app.jitouch.Jitouch" category:@"Main"];
     logger.logFormatter = [[JTLogFormatter alloc] init];
     [DDLog addLogger:logger];
     

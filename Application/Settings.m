@@ -361,7 +361,7 @@ static int notSynchronize;
 + (void)loadSettings {
     settings = [[NSMutableDictionary alloc] init];
 
-    NSString *plistPath = [@"~/Library/Preferences/com.jitouch.Jitouch.plist" stringByStandardizingPath];
+    NSString *plistPath = [@"~/Library/Preferences/app.jitouch.Jitouch.plist" stringByStandardizingPath];
     if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
         DDLogInfo(@"Could not find preferences at %@, creating default plist.", plistPath);
         [Settings createDefaultPlist];

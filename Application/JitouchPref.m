@@ -88,7 +88,8 @@ CFMachPortRef eventTap;
 - (BOOL)jitouchIsRunning {
     NSArray *apps = [[NSWorkspace sharedWorkspace] runningApplications];
     for (NSRunningApplication *app in apps) {
-        if ([app.bundleIdentifier isEqualToString:@"com.jitouch.Jitouch"])
+        if ([app.bundleIdentifier isEqualToString:@"com.jitouch.Jitouch"]
+            | [app.bundleIdentifier isEqualToString:@"app.jitouch.Jitouch"])
             return YES;
     }
     return NO;
@@ -158,19 +159,19 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
                                  format:NULL
                                  error:error];
     if (error && *error) {
-        // TODO: Error handling
+        DDLogWarn(@"Error serializing Launch Agent plist");
         return launchAgentXML;
     }
 
     NSString *jitouchPath = [NSString
-                             stringWithFormat:@"%@/Contents/Resources/Jitouch.app/Contents/MacOS/Jitouch",
+                             stringWithFormat:@"%@/Contents/MacOS/Jitouch",
                              pathToUs];
     if ([launchAgent[@"ProgramArguments"] count] == 0) {
         [launchAgent[@"ProgramArguments"] addObject:jitouchPath];
     } else {
         [launchAgent[@"ProgramArguments"] replaceObjectAtIndex:0 withObject:jitouchPath];
     }
-    launchAgent[@"StandardErrorPath"] = [NSString stringWithFormat:@"%@/Library/Logs/com.jitouch.Jitouch.log", home];
+    launchAgent[@"StandardErrorPath"] = [NSString stringWithFormat:@"%@/Library/Logs/app.jitouch.Jitouch.log", home];
     launchAgent[@"KeepAlive"][@"PathState"] = @{ pathToUs: [NSNumber numberWithBool:TRUE] };
     launchAgentXML = [NSPropertyListSerialization
                       dataWithPropertyList:launchAgent format:NSPropertyListXMLFormat_v1_0 options:0 error:error];
@@ -178,21 +179,28 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
 }
 
 - (void)loadJitouchLaunchAgent {
-    NSString *plistPath = [@"~/Library/LaunchAgents/com.jitouch.Jitouch.plist" stringByStandardizingPath];
+    NSString *plistPath = [@"~/Library/LaunchAgents/app.jitouch.Jitouch.plist" stringByStandardizingPath];
     NSArray *loadArgs = [NSArray arrayWithObjects:@"load",
                          plistPath,
                          nil];
     NSTask *loadTask = [NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:loadArgs];
+    DDLogInfo(@"Loading %@", plistPath);
     [loadTask waitUntilExit];
 }
 
-- (void)unloadJitouchLaunchAgent {
-    NSString *plistPath = [@"~/Library/LaunchAgents/com.jitouch.Jitouch.plist" stringByStandardizingPath];
-    NSArray *unloadArgs = [NSArray arrayWithObjects:@"unload",
-                           plistPath,
-                           nil];
-    NSTask *unloadTask = [NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:unloadArgs];
-    [unloadTask waitUntilExit];
+- (void)unloadJitouchLaunchAgents {
+    NSArray *plistPaths = @[
+        @"~/Library/LaunchAgents/com.jitouch.Jitouch.plist",
+        @"~/Library/LaunchAgents/app.jitouch.Jitouch.plist"
+    ];
+    for (NSString *plistPath in plistPaths) {
+        NSArray *unloadArgs = [NSArray arrayWithObjects:@"unload",
+                               plistPath,
+                               nil];
+        NSTask *unloadTask = [NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:unloadArgs];
+        DDLogInfo(@"Unloading %@", plistPath);
+        [unloadTask waitUntilExit];
+    }
 }
 
 - (void)addJitouchLaunchAgent {
@@ -202,7 +210,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
         DDLogInfo(@"Error generating LaunchAgent: %@", [error localizedDescription]);
         return;
     }
-    NSString *plistPath = [@"~/Library/LaunchAgents/com.jitouch.Jitouch.plist" stringByStandardizingPath];
+    NSString *plistPath = [@"~/Library/LaunchAgents/app.jitouch.Jitouch.plist" stringByStandardizingPath];
     NSString *launchAgentPath = [@"~/Library/LaunchAgents" stringByStandardizingPath];
     NSFileManager *fm = [NSFileManager defaultManager];
     // exit if the LaunchAgent plist already matches
@@ -224,8 +232,8 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
         DDLogInfo(@"Error creating LaunchAgent at %@: ~/Library/LaunchAgents is not a directory.", plistPath);
     }
 
-    // unload the LaunchAgent
-    [self unloadJitouchLaunchAgent];
+    // unload LaunchAgents
+    [self unloadJitouchLaunchAgents];
 
     // write the new LaunchAgent plist
     [launchAgent writeToFile:plistPath options:NSDataWritingAtomic error:&error];

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3D3182E756BC0097B82D8148 /* Pods_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8DB2999C6C42D80AD792CAD /* Pods_Application.framework */; };
-		F32D0F7B27FC6EBF00F6B9A2 /* io.github.jitouchproject.Jitouch.plist in Resources */ = {isa = PBXBuildFile; fileRef = F333EA07265A6F6500DC5690 /* io.github.jitouchproject.Jitouch.plist */; };
+		F32D0F7B27FC6EBF00F6B9A2 /* app.jitouch.Jitouch.plist in Resources */ = {isa = PBXBuildFile; fileRef = F333EA07265A6F6500DC5690 /* app.jitouch.Jitouch.plist */; };
 		F364D77A29639C05003CA11E /* JTLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F364D77929639C05003CA11E /* JTLogFormatter.m */; };
 		F366576C2781C3B4008ABF6B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36657692781C2F2008ABF6B /* Carbon.framework */; };
 		F366576D2781C3B4008ABF6B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36657682781C2F1008ABF6B /* Cocoa.framework */; };
@@ -50,7 +50,7 @@
 		A8C9E1A3994EB96188571663 /* Pods-Application.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Application.debug.xcconfig"; path = "Target Support Files/Pods-Application/Pods-Application.debug.xcconfig"; sourceTree = "<group>"; };
 		B8DB2999C6C42D80AD792CAD /* Pods_Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC3EC7850319B90435ACE902 /* Pods-Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Application.release.xcconfig"; path = "Target Support Files/Pods-Application/Pods-Application.release.xcconfig"; sourceTree = "<group>"; };
-		F333EA07265A6F6500DC5690 /* io.github.jitouchproject.Jitouch.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = io.github.jitouchproject.Jitouch.plist; path = Application/io.github.jitouchproject.Jitouch.plist; sourceTree = "<group>"; };
+		F333EA07265A6F6500DC5690 /* app.jitouch.Jitouch.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = app.jitouch.Jitouch.plist; path = Application/app.jitouch.Jitouch.plist; sourceTree = "<group>"; };
 		F364D77829639C05003CA11E /* JTLogFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JTLogFormatter.h; path = Application/JTLogFormatter.h; sourceTree = "<group>"; };
 		F364D77929639C05003CA11E /* JTLogFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JTLogFormatter.m; path = Application/JTLogFormatter.m; sourceTree = "<group>"; };
 		F36657682781C2F1008ABF6B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -235,7 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				F36657762781C847008ABF6B /* instructions.html */,
-				F333EA07265A6F6500DC5690 /* io.github.jitouchproject.Jitouch.plist */,
+				F333EA07265A6F6500DC5690 /* app.jitouch.Jitouch.plist */,
 				F37F27672641BE16000A9093 /* Info.plist */,
 				F37F27682641BE16000A9093 /* instructions.html */,
 				F37F276C2641BE16000A9093 /* JitouchIcon.icns */,
@@ -316,7 +316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F32D0F7B27FC6EBF00F6B9A2 /* io.github.jitouchproject.Jitouch.plist in Resources */,
+				F32D0F7B27FC6EBF00F6B9A2 /* app.jitouch.Jitouch.plist in Resources */,
 				F37F27712641BE16000A9093 /* JitouchIcon.icns in Resources */,
 				F366578C2781C847008ABF6B /* instructions.html in Resources */,
 				F37F27432641BDE4000A9093 /* Media.xcassets in Resources */,
@@ -565,7 +565,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jitouch.Jitouch;
+				PRODUCT_BUNDLE_IDENTIFIER = app.jitouch.Jitouch;
 				PRODUCT_NAME = Jitouch;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
@@ -594,7 +594,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jitouch.Jitouch;
+				PRODUCT_BUNDLE_IDENTIFIER = app.jitouch.Jitouch;
 				PRODUCT_NAME = Jitouch;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (

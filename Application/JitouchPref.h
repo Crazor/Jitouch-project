@@ -37,5 +37,6 @@
 - (IBAction)change:(id)sender;
 - (void) awakeFromNib;
 - (SUUpdater *) updater;
+- (void)unloadJitouchLaunchAgents;
 
 @end

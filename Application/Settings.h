@@ -21,7 +21,7 @@
 
 #define kCurrentRevision 26
 #define kAcceptableOldestRevision 13
-#define appID CFSTR("com.jitouch.Jitouch")
+#define appID CFSTR("app.jitouch.Jitouch")
 
 @class TrackpadTab, MagicMouseTab, RecognitionTab;
 

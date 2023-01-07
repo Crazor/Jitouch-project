@@ -20,13 +20,14 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "JitouchPref.h"
 
 @class CursorWindow;
 @class Gesture;
 
 @interface JitouchAppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *__weak window;
-    NSWindowController *preferencesWindowController;
+    JitouchPref *preferencesWindowController;
     Gesture *gesture;
     NSMenu *theMenu;
     NSStatusItem *theItem;

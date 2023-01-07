@@ -3,11 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>io.github.jitouchproject.Jitouch</string>
+	<string>app.jitouch.Jitouch</string>
 	<key>ProgramArguments</key>
-	<array>
-		<string>/Users/dhe/Library/PreferencePanes/Jitouch.prefPane/Contents/Resources/Jitouch.app/Contents/MacOS/Jitouch</string>
-	</array>
+	<array/>
 	<key>RunAtLoad</key>
 	<true/>
 	<key>KeepAlive</key>

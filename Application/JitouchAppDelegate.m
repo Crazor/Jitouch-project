@@ -34,15 +34,6 @@ CGKeyCode keyMap[128]; // for dvorak support
 
 @synthesize window;
 
-- (void)unloadJitouchLaunchAgent {
-    NSString *plistPath = [@"~/Library/LaunchAgents/com.jitouch.Jitouch.plist" stringByStandardizingPath];
-    NSArray *unloadArgs = [NSArray arrayWithObjects:@"unload",
-                           plistPath,
-                           nil];
-    NSTask *unloadTask = [NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:unloadArgs];
-    [unloadTask waitUntilExit];
-}
-
 #pragma mark - Menu
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
@@ -93,9 +84,7 @@ CGKeyCode keyMap[128]; // for dvorak support
 
 
 - (void)quit:(id)sender {
-    [self unloadJitouchLaunchAgent];
-
-    // Quit
+    [preferencesWindowController unloadJitouchLaunchAgents];
     [NSApp terminate: sender];
 }
 
@@ -146,14 +135,20 @@ CGKeyCode keyMap[128]; // for dvorak support
     if (!AXIsProcessTrustedWithOptions((CFDictionaryRef)@{(__bridge id)kAXTrustedCheckOptionPrompt: @(prompt)})) {
         if (reset) {
             DDLogInfo(@"Resetting TCC permissions...");
-            NSArray *resetArgs = [NSArray arrayWithObjects:
-                                      @"reset",
-                                      @"All",
-                                      [NSBundle mainBundle].bundleIdentifier,
-                                      nil
-                                 ];
-            NSTask *resetTask = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/tccutil" arguments:resetArgs];
-            [resetTask waitUntilExit];
+            NSArray *identifiers = @[
+                @"com.jitouch.Jitouch",
+                [NSBundle mainBundle].bundleIdentifier
+            ];
+            for (NSString *identifier in identifiers) {
+                NSArray *resetArgs = [NSArray arrayWithObjects:
+                                          @"reset",
+                                          @"All",
+                                          identifier,
+                                          nil
+                                     ];
+                NSTask *resetTask = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/tccutil" arguments:resetArgs];
+                [resetTask waitUntilExit];
+            }
             [self checkAXAPIwithPrompt:YES andReset:NO];
         }
     }

@@ -23,7 +23,7 @@ run: $(APP)
 	make log
 
 reset:
-	killall Jitouch ; tccutil reset All com.jitouch.Jitouch
+	killall Jitouch ; tccutil reset All app.jitouch.Jitouch
 
 find:
 	mdfind "kMDItemCFBundleIdentifier == *Jitouch*"
