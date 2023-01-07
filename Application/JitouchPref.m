@@ -245,6 +245,30 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     DDLogInfo(@"Reloaded LaunchAgent at %@", plistPath);
 }
 
+- (IBAction)resetTCC:(id)sender {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert setMessageText:@"Reset accessibility permissions?"];
+    [alert setInformativeText:@"Do you want to reset Jitouch's Accessibility API permissions? The app will quit."];
+    [alert setAlertStyle:NSAlertStyleWarning];
+    [alert beginSheetModalForWindow:[NSApp mainWindow] completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            NSArray *resetArgs = [NSArray arrayWithObjects:
+                                      @"reset",
+                                      @"All",
+                                      [NSBundle mainBundle].bundleIdentifier,
+                                      nil
+                                 ];
+            NSTask *resetTask = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/tccutil" arguments:resetArgs];
+            [resetTask waitUntilExit];
+            [NSApp terminate: sender];
+        }
+    }];
+    
+    
+} 
+
 - (void)awakeFromNib {
     [Settings loadSettings:self];
 
