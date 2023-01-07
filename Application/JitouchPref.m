@@ -279,12 +279,6 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
 
     [self enUpdated];
 
-    [[NSDistributedNotificationCenter defaultCenter] addObserver: self
-                                                        selector: @selector(settingsUpdated:)
-                                                            name: @"My Notification2"
-                                                          object: @"com.jitouch.Jitouch.PrefpaneTarget2"];
-
-
     BOOL running = [self jitouchIsRunning];
     if (running && hasPreviousVersion) {
         [self killAllJitouchs];

@@ -191,11 +191,6 @@ void languageChanged(CFNotificationCenterRef center, void *observer, CFStringRef
 
     [self checkAXAPI];
 
-    [[NSDistributedNotificationCenter defaultCenter] addObserver: self
-                                                        selector: @selector(settingsUpdated:)
-                                                            name: @"My Notification"
-                                                          object: @"com.jitouch.Jitouch.PrefpaneTarget"];
-
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(wokeUp:) name:NSWorkspaceDidWakeNotification object: NULL];
 
     //CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), self, languageChanged, kTISNotifySelectedKeyboardInputSourceChanged, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);

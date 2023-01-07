@@ -56,7 +56,6 @@ static void languageChanged(CFNotificationCenterRef center, void *observer, CFSt
     self = [super init];
     if (self) {
         languageChanged(NULL, NULL, NULL, NULL, NULL);
-        CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), (__bridge const void *)(self), languageChanged, kTISNotifySelectedKeyboardInputSourceChanged, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
         keyMap = [[NSMutableDictionary alloc] init];
         for (CGKeyCode i = 0; i < 128; i++) {
             [keyMap setObject:[NSNumber numberWithUnsignedInt:i] forKey:[KeyUtility codeToChar:i]];

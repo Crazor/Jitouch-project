@@ -78,18 +78,6 @@ CFMachPortRef eventKeyboard;
 
 static int notSynchronize;
 
-+ (void)noteSettingsUpdated {
-    @autoreleasepool {
-        [[NSDistributedNotificationCenter defaultCenter] postNotificationName: @"My Notification2"
-                                                                       object: @"com.jitouch.Jitouch.PrefpaneTarget2"
-                                                                     userInfo: @{
-         @"enAll": [NSNumber numberWithInt:enAll]
-         }
-                                                           deliverImmediately: YES];
-    }
-}
-
-
 + (void)setKey:(NSString*)aKey withInt:(int)aValue{
     [settings setObject:[NSNumber numberWithInt:aValue] forKey:aKey];
 
