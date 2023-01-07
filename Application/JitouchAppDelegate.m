@@ -142,8 +142,21 @@ CGKeyCode keyMap[128]; // for dvorak support
 #pragma mark - Initialization
 
 
-- (void)checkAXAPI {
-    AXIsProcessTrustedWithOptions((CFDictionaryRef)@{(__bridge id)kAXTrustedCheckOptionPrompt: @(YES)});
+- (void)checkAXAPIwithPrompt:(BOOL) prompt andReset:(BOOL) reset {
+    if (!AXIsProcessTrustedWithOptions((CFDictionaryRef)@{(__bridge id)kAXTrustedCheckOptionPrompt: @(prompt)})) {
+        if (reset) {
+            DDLogInfo(@"Resetting TCC permissions...");
+            NSArray *resetArgs = [NSArray arrayWithObjects:
+                                      @"reset",
+                                      @"All",
+                                      [NSBundle mainBundle].bundleIdentifier,
+                                      nil
+                                 ];
+            NSTask *resetTask = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/tccutil" arguments:resetArgs];
+            [resetTask waitUntilExit];
+            [self checkAXAPIwithPrompt:YES andReset:NO];
+        }
+    }
 }
 
 /*
@@ -185,11 +198,11 @@ void languageChanged(CFNotificationCenterRef center, void *observer, CFStringRef
 
     //languageChanged(NULL, NULL, NULL, NULL, NULL);
 
+    [self checkAXAPIwithPrompt:NO andReset:YES];
+    
     gesture = [[Gesture alloc] init];
 
     //[self showIcon];
-
-    [self checkAXAPI];
 
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(wokeUp:) name:NSWorkspaceDidWakeNotification object: NULL];
 
