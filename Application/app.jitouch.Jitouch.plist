@@ -4,19 +4,12 @@
 <dict>
 	<key>Label</key>
 	<string>app.jitouch.Jitouch</string>
-	<key>ProgramArguments</key>
-	<array/>
-	<key>RunAtLoad</key>
-	<true/>
+	<key>Program</key>
+	<string></string>
 	<key>KeepAlive</key>
 	<dict>
 		<key>Crashed</key>
 		<true/>
-		<key>PathState</key>
-		<dict>
-			<key>/Users/dhe/Library/PreferencePanes/Jitouch.prefPane</key>
-			<true/>
-		</dict>
 		<key>SuccessfulExit</key>
 		<true/>
 	</dict>

@@ -148,7 +148,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     if (error) { *error = nil; }
     NSString *pathToUs = [[NSBundle mainBundle] bundlePath];
     NSString *plistPath = [[NSBundle mainBundle]
-                           pathForResource:@"io.github.jitouchproject.Jitouch" ofType:@"plist"];
+                           pathForResource:@"app.jitouch.Jitouch" ofType:@"plist"];
     // TODO: throw error when plist is not in the bundle
     NSData *launchAgentXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
     NSString *home = NSHomeDirectory();
@@ -166,13 +166,8 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     NSString *jitouchPath = [NSString
                              stringWithFormat:@"%@/Contents/MacOS/Jitouch",
                              pathToUs];
-    if ([launchAgent[@"ProgramArguments"] count] == 0) {
-        [launchAgent[@"ProgramArguments"] addObject:jitouchPath];
-    } else {
-        [launchAgent[@"ProgramArguments"] replaceObjectAtIndex:0 withObject:jitouchPath];
-    }
+    launchAgent[@"Program"] = jitouchPath;
     launchAgent[@"StandardErrorPath"] = [NSString stringWithFormat:@"%@/Library/Logs/app.jitouch.Jitouch.log", home];
-    launchAgent[@"KeepAlive"][@"PathState"] = @{ pathToUs: [NSNumber numberWithBool:TRUE] };
     launchAgentXML = [NSPropertyListSerialization
                       dataWithPropertyList:launchAgent format:NSPropertyListXMLFormat_v1_0 options:0 error:error];
     return launchAgentXML;
@@ -194,12 +189,15 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
         @"~/Library/LaunchAgents/app.jitouch.Jitouch.plist"
     ];
     for (NSString *plistPath in plistPaths) {
-        NSArray *unloadArgs = [NSArray arrayWithObjects:@"unload",
-                               plistPath,
-                               nil];
-        NSTask *unloadTask = [NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:unloadArgs];
-        DDLogInfo(@"Unloading %@", plistPath);
-        [unloadTask waitUntilExit];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:plistPath])
+        {
+            NSArray *unloadArgs = [NSArray arrayWithObjects:@"unload",
+                                   plistPath,
+                                   nil];
+            NSTask *unloadTask = [NSTask launchedTaskWithLaunchPath:@"/bin/launchctl" arguments:unloadArgs];
+            DDLogInfo(@"Unloading %@", plistPath);
+            [unloadTask waitUntilExit];
+        }
     }
 }
 
@@ -246,7 +244,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
 
     // in case an older Jitouch is still around
     [self removeJitouchFromLoginItems];
-    [self killAllJitouchs];
+    //[self killAllJitouchs];
 
     [self loadJitouchLaunchAgent];
 
