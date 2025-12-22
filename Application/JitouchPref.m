@@ -288,7 +288,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
     BOOL running = [self jitouchIsRunning];
     if (running && hasPreviousVersion) {
         [self killAllJitouchs];
-        running = NO;
+        //running = NO;
     }
     [self addJitouchLaunchAgent];
 
@@ -320,6 +320,7 @@ static CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEve
         CGEventTapEnable(eventKeyboard, false);
         CFRunLoopSourceRef runLoopSource = CFMachPortCreateRunLoopSource( kCFAllocatorDefault, eventKeyboard, 0);
         CFRunLoopAddSource(CFRunLoopGetMain(), runLoopSource, kCFRunLoopCommonModes);
+        CFRelease(runLoopSource);
     }
 }
 
