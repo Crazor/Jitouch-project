@@ -225,11 +225,11 @@ static bool familyIsMagicTrackpad(int familyID) {
     return FALSE;
 }
 
-static void turnOffTrackpad() {
+static void turnOffTrackpad(void) {
     trackpadNFingers = 0;
 }
 
-static void turnOffMagicMouse() {
+static void turnOffMagicMouse(void) {
     middleClickFlag = 0;
     magicMouseThreeFingerFlag = 0;
     simulating = 0;
@@ -238,7 +238,7 @@ static void turnOffMagicMouse() {
     [cursorWindow orderOut:nil];
 }
 
-static void turnOffCharacters() {
+static void turnOffCharacters(void) {
     @autoreleasepool {
         [gestureWindow clear];
         [gestureWindow orderOut:nil];
@@ -247,13 +247,13 @@ static void turnOffCharacters() {
     isMouseRecognizing = 0;
 }
 
-void turnOffGestures() {
+void turnOffGestures(void) {
     turnOffTrackpad();
     turnOffMagicMouse();
     turnOffCharacters();
 }
 
-void enableEventTap() {
+void enableEventTap(void) {
     CGEventTapEnable(eventTap, true);
 }
 
@@ -290,7 +290,7 @@ static void getMousePosition(CGFloat *x, CGFloat *y) {
     *y = ourLoc.y;
 }
 
-static CFTypeRef getForemostApp() {
+static CFTypeRef getForemostApp(void) {
     CFTypeRef focusedAppRef;
     if (systemWideElement && AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute, &focusedAppRef) != kAXErrorSuccess) {
         NSRunningApplication *frontmostApplication = [[NSWorkspace sharedWorkspace] frontmostApplication];
@@ -374,7 +374,7 @@ static int setWindowSize2(CFTypeRef window, CGFloat x, CGFloat y, CGFloat baseX,
     getWindowSize(window, &appW, &appH);
     return setWindowSize(window, appW+x-baseX, appH+y-baseY);
 }
-static void maximizeForemostWindow() {
+static void maximizeForemostWindow(void) {
     CFTypeRef winRef = getForemostApp();
     if (winRef) {
         CFTypeRef zoomButton;
@@ -385,7 +385,7 @@ static void maximizeForemostWindow() {
         CFRelease(winRef);
     }
 }
-static void minimizeForemostWindow() {
+static void minimizeForemostWindow(void) {
     CFTypeRef winRef = getForemostApp();
     if (winRef) {
         CFTypeRef minButton;
@@ -553,7 +553,7 @@ static void findTabGroup2(CFTypeRef windowRef, float cx, float cy) {
     [cursorWindow setFrameOrigin:NSMakePoint(cx - 31, scr.size.height - tabY - 20)];
 }
 
-static int selectSafariTab() {
+static int selectSafariTab(void) {
     CGFloat x, y;
     int ret = 0;
     getMousePosition(&x, &y);
@@ -584,7 +584,7 @@ static int selectSafariTab() {
     return ret;
 }
 
-static CFTypeRef axuiUnderMouse() {
+static CFTypeRef axuiUnderMouse(void) {
     CGFloat x, y;
     AXUIElementRef focusedElement = nil;
     getMousePosition(&x, &y);
@@ -593,7 +593,7 @@ static CFTypeRef axuiUnderMouse() {
     return focusedElement;
 }
 
-static BOOL isMouseOnEmptySpace() {
+static BOOL isMouseOnEmptySpace(void) {
     BOOL ret = NO;
     CFTypeRef axui = axuiUnderMouse();
     NSString *application = nameOfAxui(axui);
@@ -983,7 +983,7 @@ static void doCommand(NSString *gesture, int device) {
     CFSafeRelease(axui);
 }
 
-static void setCursorWindowAtMouse() {
+static void setCursorWindowAtMouse(void) {
     CGEventRef ourEvent = CGEventCreate(NULL);
     CGPoint location = CGEventGetUnflippedLocation(ourEvent);
     CFRelease(ourEvent);
@@ -3351,7 +3351,7 @@ CFMutableArrayRef deviceList;
 
 #pragma mark - Character Recognizer
 
-static void initNormPdf() {
+static void initNormPdf(void) {
     float mn = 10, mx = -1;
     float lo = 0.5, hi = 1;
     for (int i = -100; i <= 100; i++) {
@@ -3392,7 +3392,7 @@ static void setDegreeSpan(DegreeSpan *ds, float deg, float span) {
     ds->span = span * PI / 180.0f;
 }
 
-static void initChars() {
+static void initChars(void) {
     int c2 = 0;
     nChars = 0;
     
@@ -3905,7 +3905,7 @@ static const char *finalizeStep(float x1, float y1, float x2, float y2, float to
     return chars[out].ch;
 }
 
-static void clearStep() {
+static void clearStep(void) {
     for (int i = 0; i < nChars; i++) {
         chars[i].step = 0;
         chars[i].score = 0;

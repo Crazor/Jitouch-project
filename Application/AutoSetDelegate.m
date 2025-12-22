@@ -60,7 +60,7 @@ static NSTextField *_fingersName;
 static NSWindow *_autoSetWindow;
 static NSSlider *_indexRing;
 
-static void setIndexRing() {
+static void setIndexRing(void) {
     charRegIndexRingDistance = [_indexRing floatValue] / 100;
     [Settings setKey:@"charRegIndexRingDistance" withFloat:charRegIndexRingDistance];
     [Settings noteSettingsUpdated];
@@ -131,7 +131,7 @@ static int callback(int device, Finger *data, int nFingers, double timestamp, in
             [autoSetWindow makeKeyAndOrderFront:nil];
             */
             [advancedWindow beginSheet:autoSetWindow completionHandler:^(NSModalResponse returnCode) {
-                [self didEndSheet:autoSetWindow returnCode:returnCode contextInfo:nil];
+                [self didEndSheet:self->autoSetWindow returnCode:returnCode contextInfo:nil];
             }];
         }
         touchState = 1;

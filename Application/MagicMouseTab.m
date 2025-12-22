@@ -550,7 +550,7 @@
     }
 
     [window beginSheet:commandSheet completionHandler:^(NSModalResponse returnCode) {
-        [self didEndSheet:commandSheet returnCode:returnCode contextInfo:nil];
+        [self didEndSheet:self->commandSheet returnCode:returnCode contextInfo:nil];
     }];
 }
 
@@ -732,7 +732,7 @@
             [urlWindowCancel setTarget:self];
             [urlWindowCancel setAction:@selector(cancelUrlWindow:)];
             [commandSheet beginSheet:urlWindow completionHandler:^(NSModalResponse returnCode) {
-                [self didEndSheet:urlWindow returnCode:returnCode contextInfo:nil];
+                [self didEndSheet:self->urlWindow returnCode:returnCode contextInfo:nil];
             }];
         }
     } else if (sender == shortcutTextField && ![[shortcutTextField stringValue] isEqualToString:@""]) {
